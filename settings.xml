@@ -187,13 +187,6 @@ under the License.
 			  <name>Human Readable Name for this Mirror.</name>  
 			 <url>http://mirrors.ibiblio.org/maven2/</url>  
 		</mirror>
-
-		<mirror>
-			<id>nexus-osc-thirdparty</id>
-			<mirrorOf>thirdparty</mirrorOf>
-			<name>Nexus osc thirdparty</name>
-			<url>http://maven.oschina.net/content/repositories/thirdparty</url>
-		</mirror>
 	
   </mirrors>
   
@@ -323,6 +316,16 @@ under the License.
 			<name>SpringSource Repository</name>
 			<url>http://repo.springsource.org/release/</url>
 		</repository>
+		<repository>  
+			<id>spring-milestone</id>  
+			<url>https://repo.spring.io/libs-milestone</url>  
+       </repository>  
+       <repository>  
+			<snapshots><enabled>true</enabled></snapshots>  
+			<id>repository.spring.snapshot</id>  
+			<name>Spring Snapshot Repository</name>  
+			<url>http://repo.spring.io/snapshot</url>  
+       </repository>  
 		<repository>
 			<id>cloudhopper</id>
 			<name>Repository for Cloudhopper</name>

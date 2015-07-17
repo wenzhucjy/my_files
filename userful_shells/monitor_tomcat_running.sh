@@ -1,9 +1,6 @@
 #!/bin/sh
  
 # func:自动监控tomcat脚本并且执行重启操作
-# author:danny
-# date:02/20/2013
-# DEFINE
  
 # 获取tomcat进程ID
 TomcatID=$(ps -ef |grep tomcat |grep -w 'dw\/apache-tomcat-7.0.34\/conf'|grep -v 'grep'|awk '{print $2}')

@@ -1,0 +1,18 @@
+[color]
+	ui = true
+[user]
+	name = wenzhu
+	email = wenzhucjy@gmail.com
+[alias]
+	cm = commit
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	st = status -sb
+	ac = !git add -A && git commit
+	remotes = remote -v
+	branches = branch -a
+	cleanup = git cleanup branch --merged | grep -v '*' | xargs git branch -d
+	co = checkout
+	latest = for-each-ref --sort=-committerdate --format=\"%(committername)@%(refname:short) [%(committerdate:short)] %(contents)\"
+	standup = log --since '1 day ago' --oneline --author wenzhucjy@gmail.com
+[help]
+	autocorrect = 1

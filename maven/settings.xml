@@ -131,24 +131,19 @@ under the License.
       <passphrase>optional; leave empty if not used.</passphrase>
     </server>
     -->
-	
+	<!--用Maven分发构件到远程仓库需要认证的验证信息,server元素下id的值必须与POM中repository或snapshotRepository下id的值完全一致 -->
+	<!--
 	<server>
-		<id>server41</id>
-		<username>admin</username>
-		<password>nimda</password>
+		<id>nexus-releases</id>
+		<username>neoyin</username>
+		<password>*****</password>
 	</server>
-	
 	<server>
-		<id>server42</id>
-		<username>admin</username>
-		<password>nimda</password>
-	</server>
-	
-	<server>
-		<id>server43</id>
-		<username>admin</username>
-		<password>nimda</password>
-	</server>
+		<id>nexus-snapshots</id>
+		<username>neoyin</username>
+		<password>*****</password>
+		-->
+</server>
   </servers>
 
   <!-- mirrors

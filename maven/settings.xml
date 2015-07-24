@@ -92,8 +92,9 @@ under the License.
     <!-- proxy
      | Specification for one proxy, to be used in connecting to the network.
      |
+	 设置HTTP代理,若声明多个proxy,默认第一个被激活
     <proxy>
-      <id>optional</id>
+      <id>my-proxy</id>
       <active>true</active>
       <protocol>http</protocol>
       <username>proxyuser</username>

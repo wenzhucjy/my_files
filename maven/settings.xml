@@ -177,8 +177,10 @@ under the License.
         		<name>maven 2</name>
         		<url>http://repo.maven.apache.org/maven2</url>
     	</mirror>
+		<!-- 任何对于中央仓库central的请求都会转至该镜像地址 -->
 		<mirror>  
 			  <id>ibiblio</id>  
+			  <!-- 匹配所有远程仓库,用逗号分隔多个远程仓库 *,!repo1 表示把repo1排除 -->
 			  <mirrorOf>central</mirrorOf>  
 			  <name>Human Readable Name for this Mirror.</name>  
 			 <url>http://mirrors.ibiblio.org/maven2/</url>  
@@ -225,13 +227,18 @@ under the License.
       <activation>
         <jdk>1.4</jdk>
       </activation>
-
+	
       <repositories>
         <repository>
           <id>jdk14</id>
           <name>Repository for JDK 1.4 builds</name>
           <url>http://www.myhost.com/maven/jdk14</url>
           <layout>default</layout>
+		  <!--  
+		  updatePolicy : 配置maven 从远程仓库检查更新的频率,默认daily-每天,never-从不,always-每次构建都检查更新,interval:X-每隔X分钟更新,X为整数 
+		  checksumPolicy:配置maven校验和错误,默认warn-警告,fail-若遇到错误就构建失败,ignore-忽略
+		  -->
+		  <!--
           <snapshotPolicy>always</snapshotPolicy>
         </repository>
       </repositories>

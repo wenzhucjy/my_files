@@ -19,63 +19,11 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<!--
- | This is the configuration file for Maven. It can be specified at two levels:
- |
- |  1. User Level. This settings.xml file provides configuration for a single user, 
- |                 and is normally provided in ${user.home}/.m2/settings.xml.
- |
- |                 NOTE: This location can be overridden with the CLI option:
- |
- |                 -s /path/to/user/settings.xml
- |
- |  2. Global Level. This settings.xml file provides configuration for all Maven
- |                 users on a machine (assuming they're all using the same Maven
- |                 installation). It's normally provided in 
- |                 ${maven.home}/conf/settings.xml.
- |
- |                 NOTE: This location can be overridden with the CLI option:
- |
- |                 -gs /path/to/global/settings.xml
- |
- | The sections in this sample file are intended to give you a running start at
- | getting the most out of your Maven installation. Where appropriate, the default
- | values (values used when the setting is not specified) are provided.
- |
- |-->
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-  <!-- localRepository
-   | The path to the local repository maven will use to store artifacts.
-   |
-   | Default: ~/.m2/repository
-  <localRepository>/path/to/local/repo</localRepository>
-  -->
+ <!-- 自定义本地仓库地址,其默认值为~/.m2/repository -->  
   <localRepository>D:/Java/maven/repository</localRepository>
-
-  <!-- interactiveMode
-   | This will determine whether maven prompts you when it needs input. If set to false,
-   | maven will use a sensible default value, perhaps based on some other setting, for
-   | the parameter in question.
-   |
-   | Default: true
-  <interactiveMode>true</interactiveMode>
-  -->
-
-  <!-- offline
-   | Determines whether maven should attempt to connect to the network when executing a build.
-   | This will have an effect on artifact downloads, artifact deployment, and others.
-   |
-   | Default: false
-  <offline>false</offline>
-  -->
-
-  <!-- pluginGroups
-   | This is a list of additional group identifiers that will be searched when resolving plugins by their prefix, i.e.
-   | when invoking a command line like "mvn prefix:goal". Maven will automatically add the group identifiers
-   | "org.apache.maven.plugins" and "org.codehaus.mojo" if these are not already contained in the list.
-   |-->
   <pluginGroups>
     <!-- pluginGroup
      | Specifies a further group identifier to use for plugin lookup.
@@ -91,8 +39,8 @@ under the License.
   <proxies>
     <!-- proxy
      | Specification for one proxy, to be used in connecting to the network.
-     |
-	 设置HTTP代理,若声明多个proxy,默认第一个被激活
+     |-->
+	<!--
     <proxy>
       <id>my-proxy</id>
       <active>true</active>
@@ -110,281 +58,124 @@ under the License.
    | This is a list of authentication profiles, keyed by the server-id used within the system.
    | Authentication profiles can be used whenever maven must make a connection to a remote server.
    |-->
-  <servers>
-    <!-- server
-     | Specifies the authentication information to use when connecting to a particular server, identified by
-     | a unique name within the system (referred to by the 'id' attribute below).
-     | 
-     | NOTE: You should either specify username/password OR privateKey/passphrase, since these pairings are 
-     |       used together.
-     |
-    <server>
-      <id>deploymentRepo</id>
-      <username>repouser</username>
-      <password>repopwd</password>
-    </server>
-    -->
-    
-    <!-- Another sample, using keys to authenticate.
-    <server>
-      <id>siteServer</id>
-      <privateKey>/path/to/private/key</privateKey>
-      <passphrase>optional; leave empty if not used.</passphrase>
-    </server>
-    -->
-	<!--用Maven分发构件到远程仓库需要认证的验证信息,server元素下id的值必须与POM中repository或snapshotRepository下id的值完全一致 -->
-	<!--
-	<server>
-		<id>nexus-releases</id>
-		<username>neoyin</username>
-		<password>*****</password>
-	</server>
-	<server>
-		<id>nexus-snapshots</id>
-		<username>neoyin</username>
-		<password>*****</password>
-		
-	</server>
-	-->
-  </servers>
-
-  <!-- mirrors
-   | This is a list of mirrors to be used in downloading artifacts from remote repositories.
-   | 
-   | It works like this: a POM may declare a repository to use in resolving certain artifacts.
-   | However, this repository may have problems with heavy traffic at times, so people have mirrored
-   | it to several places.
-   |
-   | That repository definition will have a unique id, so we can create a mirror reference for that
-   | repository, to be used as an alternate download site. The mirror site will be the preferred 
-   | server for that repository.
-   |-->
-  <mirrors>
-    <!-- mirror
-     | Specifies a repository mirror site to use instead of a given repository. The repository that
-     | this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used
-     | for inheritance and direct lookup purposes, and must be unique across the set of mirrors.
-     |
-    <mirror>
-      <id>mirrorId</id>
-      <mirrorOf>repositoryId</mirrorOf>
-      <name>Human Readable Name for this Mirror.</name>
-      <url>http://my.repository.com/repo/path</url>
-    </mirror>
-    -->
-		<mirror>
-        		<id>maven2</id>
-        		<mirrorOf>*</mirrorOf>
-        		<name>maven 2</name>
-        		<url>http://repo.maven.apache.org/maven2</url>
-    	</mirror>
-		<!-- 任何对于中央仓库central的请求都会转至该镜像地址 -->
-		<mirror>  
-			  <id>ibiblio</id>  
-			  <!-- 匹配所有远程仓库,用逗号分隔多个远程仓库 *,!repo1 表示把repo1排除 -->
-			  <mirrorOf>central</mirrorOf>  
-			  <name>Human Readable Name for this Mirror.</name>  
-			 <url>http://mirrors.ibiblio.org/maven2/</url>  
-		</mirror>
+ <!-- 发布的服务器和密码，可设定权限指定相应的仓库地址URL -->  
+   <servers>  
+    <server>  
+      <!-- 发布的位置在POM中配置，以ID为关联，有很多公用的信息需要配置在POM文件里，最佳实践是定义一个公司级别的root pom -->  
+      <id>anyfish.releases</id>  
+      <username>web</username>  
+      <password>1q2w3e4r</password>  
+    </server>  
+    <server>  
+      <id>anyfish.snapshots</id>  
+      <username>web</username>  
+      <password>1q2w3e4r</password>  
+    </server>  
+  </servers>  
+  <!-- 配置镜像 -->  
+	<mirrors>
+	   <!-- 此镜像一般用来作为公司内部开发的版本快照，作为public-snapshots仓库的镜像地址 -->  
+      <!-- 镜像的id,id用来区分不同的mirror元素。 -->   
+	  <mirror>
+		<id>local_mirror</id>
+		<mirrorOf>*</mirrorOf>
+		<name>local_mirror</name>
+		<url>http://localhost:8081/nexus/content/groups/public/</url>
+	</mirror>
 	
-  </mirrors>
-  
-  <!-- profiles
-   | This is a list of profiles which can be activated in a variety of ways, and which can modify
-   | the build process. Profiles provided in the settings.xml are intended to provide local machine-
-   | specific paths and repository locations which allow the build to work in the local environment.
-   |
-   | For example, if you have an integration testing plugin - like cactus - that needs to know where
-   | your Tomcat instance is installed, you can provide a variable here such that the variable is 
-   | dereferenced during the build process to configure the cactus plugin.
-   |
-   | As noted above, profiles can be activated in a variety of ways. One way - the activeProfiles
-   | section of this document (settings.xml) - will be discussed later. Another way essentially
-   | relies on the detection of a system property, either matching a particular value for the property,
-   | or merely testing its existence. Profiles can also be activated by JDK version prefix, where a 
-   | value of '1.4' might activate a profile when the build is executed on a JDK version of '1.4.2_07'.
-   | Finally, the list of active profiles can be specified directly from the command line.
-   |
-   | NOTE: For profiles defined in the settings.xml, you are restricted to specifying only artifact
-   |       repositories, plugin repositories, and free-form properties to be used as configuration
-   |       variables for plugins in the POM.
-   |
-   |-->
+	 <!-- 
+	  <mirror>
+		  <id>nexus-osc</id>
+		  <mirrorOf>central</mirrorOf>
+		  <name>Nexus osc</name>
+		  <url>http://localhost:8081/nexus/content/groups/public</url>
+	  </mirror>
+	 <mirror>
+		  <id>nexus-osc-thirdparty</id>
+		  <mirrorOf>thirdparty</mirrorOf>
+		  <name>Nexus osc thirdparty</name>
+		  <url>http://maven.oschina.net/content/repositories/thirdparty/</url>
+	  </mirror>
+	  -->
+	</mirrors>
+	  <!-- settings.xml中的profile元素是pom.xml中profile元素的裁剪版本。它包含了activation, repositories, pluginRepositories 和 properties元素。  
+    这里的profile元素只包含这四个子元素是因为这里只关心构建系统这个整体（这正是settings.xml文件的角色定位），而非单独的项目对象模型设置。    
+    如果一个settings中的profile被激活，它的值会覆盖任何其它定义在POM中或者profile.xml中的带有相同id的profile。 -->  
   <profiles>
-    <!-- profile
-     | Specifies a set of introductions to the build process, to be activated using one or more of the
-     | mechanisms described above. For inheritance purposes, and to activate profiles via <activatedProfiles/>
-     | or the command line, profiles have to have an ID that is unique.
-     |
-     | An encouraged best practice for profile identification is to use a consistent naming convention
-     | for profiles, such as 'env-dev', 'env-test', 'env-production', 'user-jdcasey', 'user-brett', etc.
-     | This will make it more intuitive to understand what the set of introduced profiles is attempting
-     | to accomplish, particularly when you only have a list of profile id's for debug.
-     |
-     | This profile example uses the JDK version to trigger activation, and provides a JDK-specific repo.
-    <profile>
-      <id>jdk-1.4</id>
-
-      <activation>
-        <jdk>1.4</jdk>
-      </activation>
-	
-      <repositories>
-        <repository>
-          <id>jdk14</id>
-          <name>Repository for JDK 1.4 builds</name>
-          <url>http://www.myhost.com/maven/jdk14</url>
-          <layout>default</layout>
-		  <!--  
-		  updatePolicy : 配置maven 从远程仓库检查更新的频率,默认daily-每天,never-从不,always-每次构建都检查更新,interval:X-每隔X分钟更新,X为整数 
-		  checksumPolicy:配置maven校验和错误,默认warn-警告,fail-若遇到错误就构建失败,ignore-忽略
-		  -->
-		  <!--
-          <snapshotPolicy>always</snapshotPolicy>
-        </repository>
-      </repositories>
-	  
-	<repositories>
-		<repository>
-			<id>ibiblio</id>
-			<name>Ibiblio Maven Repository</name>
-			<url>http://www.ibiblio.org/maven2</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>PlanetMirror</id>
-			<name>Planet Mirror</name>
-			<url>http://public.planetmirror.com/pub/maven/</url>
-		</repository>
-	</repositories>
-    </profile>
-    -->
-	
-    <!--
-     | Here is another profile, activated by the system property 'target-env' with a value of 'dev',
-     | which provides a specific path to the Tomcat instance. To use this, your plugin configuration
-     | might hypothetically look like:
-     |
-     | ...
-     | <plugin>
-     |   <groupId>org.myco.myplugins</groupId>
-     |   <artifactId>myplugin</artifactId>
-     |   
-     |   <configuration>
-     |     <tomcatLocation>${tomcatPath}</tomcatLocation>
-     |   </configuration>
-     | </plugin>
-     | ...
-     |
-     | NOTE: If you just wanted to inject this configuration whenever someone set 'target-env' to
-     |       anything, you could just leave off the <value/> inside the activation-property.
-     |
-    <profile>
-      <id>env-dev</id>
-
-      <activation>
-        <property>
-          <name>target-env</name>
-          <value>dev</value>
-        </property>
-      </activation>
-
-      <properties>
-        <tomcatPath>/path/to/tomcat/instance</tomcatPath>
-      </properties>
-    </profile>
-    -->
-	
-	<profile>
-		<id>jdk-1.4</id>
-		<activation><jdk>1.4</jdk></activation>
-		
-		<repositories>
-		<repository>
-			<id>apache-repo</id>
-			<name>apache Repository</name>
-			<url>https://repository.apache.org/content/groups/public/</url>
-		</repository>
-		<repository>
-			<id>travis-ci-repo</id>
-			<name>travis-ci Repository</name>
-			<url>http://maven.mirrors.travis-ci.org/nexus/content/repositories/central</url>
-		</repository>
-		<repository>
-			<id>java-repo</id>
-			<name>java Repository</name>
-			<url>http://download.java.net/maven/2/</url>
-		</repository>
-		<repository>
-			<id>springsource-repo</id>
-			<name>SpringSource Repository</name>
-			<url>http://repo.springsource.org/release/</url>
-		</repository>
-		<repository>  
-			<id>spring-milestone</id>  
-			<url>https://repo.spring.io/libs-milestone</url>  
-       </repository>  
-       <repository>  
-			<snapshots><enabled>true</enabled></snapshots>  
-			<id>repository.spring.snapshot</id>  
-			<name>Spring Snapshot Repository</name>  
-			<url>http://repo.spring.io/snapshot</url>  
-       </repository>  
-		<repository>
-			<id>cloudhopper</id>
-			<name>Repository for Cloudhopper</name>
-			<url>http://maven.cloudhopper.com/repos/third-party/</url>
-		</repository>
-		<repository>
-			<id>jboss-repo-releases</id>
-			<name>Jboss Repository</name>
-			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-		</repository>
-		<repository>
-			<id>central</id>
-			<name>Maven Repository Switchboard</name>
-			<layout>default</layout>
-			<url>http://repo.maven.apache.org/maven2</url>
-		</repository>
-		<repository>
-			<id>maven-repo1</id>
-			<name>maven-repo1</name>
-			<layout>default</layout>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-		<repository>
-			<id>sourceforge-releases</id>
-			<name>Sourceforge Releases</name>
-			<url>https://oss.sonatype.org/content/repositories/sourceforge-releases/</url>
-		</repository>
-	</repositories>
-		
-		<pluginRepositories>
-			<pluginRepository>
-				<id>maven2-repo</id>
-				<name>maven2 Repository</name>
-				<url>http://repo1.maven.org/maven2/</url>
-			</pluginRepository>
-			<pluginRepository>
-				<id>Codehaus repository</id>
-				<url>http://repository.codehaus.org/</url>
-			</pluginRepository>
-			<pluginRepository>
-				<id>maven-db-plugin-repo</id>
-				<name>maven db plugin repository</name>
-				<url>http://maven-db-plugin.googlecode.com/svn/maven/repo</url>
-				<layout>default</layout>
-			</pluginRepository>
-		</pluginRepositories>
-	</profile>
+    <!-- 仓库。仓库是Maven用来填充构建系统本地仓库所使用的一组远程项目。而Maven是从本地仓库中使用其插件和依赖。  
+不同的远程仓库可能含有不同的项目，而在某个激活的profile下，可能定义了一些仓库来搜索需要的发布版或快照版构件。有了Nexus，这些应该交由Nexus完成 -->  
+   <profile>
+            <id>local_nexus</id>
+            <repositories>
+                <repository>
+                    <id>local_nexus</id>
+                    <name>nexus Repo</name>
+                    <url>http://localhost:8081/nexus/content/groups/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+				
+            </repositories>
+			 <!-- 插件仓库。仓库是两种主要构件的家。第一种构件被用作其它构件的依赖。这是中央仓库中存储大部分构件类型。  
+        另外一种构件类型是插件。Maven插件是一种特殊类型的构件。由于这个原因，插件仓库独立于其它仓库。  
+        pluginRepositories元素的结构和repositories元素的结构类似。每个pluginRepository元素指定一个Maven可以用来寻找新插件的远程地址。 -->    
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>local_nexus</id>
+                    <name>local_nexus</name>
+                    <url>http://localhost:8081/nexus/content/groups/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>central</id>
+					 <!-- 虚拟的URL形式,指向镜像的URL,因为所有的镜像都是用的是nexus，这里的nexus实际上指向的是http://maven.oschina.net/content/groups/public/ -->  
+                    <url>http://maven.oschina.net/content/groups/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+					  <!-- 表示可以从这个仓库下载snapshot版本的构件 -->
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+		<!-- 默认的中央工厂定义在 $M2_HOME/lib/maven-model-builder-x.x.x.jar的pom.xml文件中，若要修改默认的配置，需覆盖写以下配置-->
+		<profile>
+            <id>central_nexus</id>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <name>nexus Repo</name>
+					  <!--由于配置过镜像，这个url不起作用-->
+                    <url>http://maven.oschina.net/content/groups/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
   </profiles>
-
-  <!-- activeProfiles
-   | List of profiles that are active for all builds.
-   |
-  <activeProfiles>
-    <activeProfile>alwaysActiveProfile</activeProfile>
-    <activeProfile>anotherAlwaysActiveProfile</activeProfile>
+  
+ <!-- 激活的Profile。activation元素并不是激活profile的唯一方式。settings.xml文件中的activeProfile元素可以包含profile的id，  
+    任何在activeProfile中定义的profile id，不论环境设置如何，其对应的profile都会被激活。如果没有匹配的profile，则什么都不会发生。  
+    profile也可以通过在命令行，使用-P标记和逗号分隔的列表来显式的激活（如，-P test）。  
+    要了解在某个特定的构建中哪些profile会激活，可以使用maven-help-plugin（mvn help:active-profiles）。 -->    
+  <activeProfiles>  
+   <activeProfile>local_nexus</activeProfile>  
+    <activeProfile>central_nexus</activeProfile>  
   </activeProfiles>
-  -->
+  
 </settings>

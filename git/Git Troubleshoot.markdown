@@ -68,7 +68,11 @@ git config –global core.quotepath false
 #core.quotepath设为false的话，就不会对0×80以上的字符进行quote。中文显示正常。
 ```
 
+ 
+
  - 情景2
+
+
 在MsysGit中，使用git log显示提交的中文log乱码。
 
 解决方案：
@@ -88,6 +92,7 @@ export LESSCHARSET=utf-8
 ```
 
  - 情景3
+ 
 在MsysGit自带的bash中，使用ls命令查看中文文件名乱码。cygwin没有这个问题。
 
 解决方案：
@@ -112,3 +117,4 @@ cygwin官方网站提到了非拉丁语文件名的问题，也许研究后能�
 
 [搞定Git中文乱码、用TortoiseMerge实现Diff/Merge](http://bbs.csdn.net/topics/360008711)
 [MsysGit乱码与跨平台版本管理](http://bbs.csdn.net/topics/350266540)
+[Git for windows 中文乱码解决方案](http://segmentfault.com/a/1190000000578037)

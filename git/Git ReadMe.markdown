@@ -1,10 +1,15 @@
-# 解决 Git 在 windows 下中文乱码的问题
+﻿
+#Git Troubleshoot
 
-## 原因
+----------
+##解决 Git 在 windows 下中文乱码
+> ###原因
+
 
 中文乱码的根源在于 windows 基于一些历史原因无法全面支持 utf-8 编码格式，并且也无法通过有效手段令其全面支持。
 
-## 解决方案
+
+> ###解决方案
 
 1. 安装
 
@@ -44,12 +49,11 @@ alias ls="ls --show-control-chars --color"
 
 4. 如果进入 vim 后发现不能输入中文，那么先按 `esc` 退出编辑模式，然后输入：`:set termencoding=GBK`，即可。（也可能是 GB2312，都试一下）
 
-## 还好我们有 GUI
+> ###其他 GUI
 
-实在搞不定命令行的童鞋，请直接使用各种 GUI 工具吧！
+实在搞不定，请直接使用各种 GUI 工具！
 
 1. 使用 eclipse IDE的，可以安装 EGit 插件
 
 2. 不使用 IDE 的，可以搜索一个叫做 SmartGit 的 GUI 客户端
 
-That's All!

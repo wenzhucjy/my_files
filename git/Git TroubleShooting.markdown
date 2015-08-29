@@ -113,8 +113,14 @@ cygwin官方网站提到了非拉丁语文件名的问题，也许研究后能�
 
 貌似终极的解决办法是通过修改git和TortoiseGit源码实现的：[让Windows下Git和TortoiseGit支持中文文件名/UTF-8](http://www.cnblogs.com/tinyfish/archive/2010/12/17/1909463.html)
 
-参考链接：
+> ###相关文档
+
 
 [搞定Git中文乱码、用TortoiseMerge实现Diff/Merge](http://bbs.csdn.net/topics/360008711)
+
+
 [MsysGit乱码与跨平台版本管理](http://bbs.csdn.net/topics/350266540)
+
+
+
 [Git for windows 中文乱码解决方案](http://segmentfault.com/a/1190000000578037)

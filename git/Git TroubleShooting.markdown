@@ -1,5 +1,5 @@
 ﻿
-#Git Troubleshoot
+#Git TroubleShooting
 
 ----------
 ##解决 Git 在 windows 下中文乱码

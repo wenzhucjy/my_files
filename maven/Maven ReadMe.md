@@ -153,9 +153,13 @@ e.版本的管理
                                -->user0.1.0-SNAPSHOT-->user0.1.0-Rlease
                            
 ### **3. 仓库**
+
 a.本地仓库
+
 b.中心仓库，优先使用oschina的仓库地址
+
 [http://maven.oschina.net/content/groups/public/](http://maven.oschina.net/content/groups/public/)
+
 c.私服Nexus
 
  - nexus的安装
@@ -169,20 +173,27 @@ c.私服Nexus
 5、nexus start|stop|restart 启动|停止|重启服务
 ```
  - 仓库讲解
-######1.host的仓库，内部项目的发布仓库
+ 
+
+1.host的仓库，内部项目的发布仓库
+
 ```bash
 3rd party : 第三方依赖的仓库，这个数据通常是内部内容自行下载只收发布
 Releases  : 内部的模块中release模块的发布仓库
 Snapshots ：发布内部的SNAPSHOT模块的仓库
 ```
 
-######2.proxy的仓库，从远程中央仓库中寻找数据的仓库
-######3.group仓库。组仓库用来方便开发人员进行设置的仓库
+2.proxy的仓库，从远程中央仓库中寻找数据的仓库
+
+3.group仓库。组仓库用来方便开发人员进行设置的仓库
 
  - 仓库设置
+ 
 
  - 项目的发布
+ 
  1.设置release和snapshot工厂
+
 ```bash
   <!--  部署构件至nexus中 mvn : deploy 其中id 与settings.xml文件中的servers标签中的server底下的id一致-->
     <distributionManagement>
@@ -204,7 +215,9 @@ Snapshots ：发布内部的SNAPSHOT模块的仓库
   
 
 ### **4. 生命周期和插件**
+
 a.生命周期
+
 ```bash
 1、clean
  pre-clean 执行一些需要在clean之前完成的工作
@@ -241,9 +254,11 @@ a.生命周期
  site-deploy 将生成的站点文档部署到特定的服务器上
 ```
 b.插件
+
 插件是maven的核心，所有执行的操作都是基于插件来完成的
 为了让一个插件中可以实现众多的类似功能，maven为插件设定了目标，一个插件中有可能有多个目标
 其实生命周期中的重要的每个阶段都是由插件的一个具体目标来执行的
+
 ```bash
 mvn help:describe -Dplugin=org.apache.maven.plugins:maven-source-plugin:2.4 -Ddetail
 或简化

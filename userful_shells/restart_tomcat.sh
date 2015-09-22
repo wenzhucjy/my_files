@@ -1,6 +1,6 @@
 #!/bin/sh
 #Author : wenzhu
-#Desc : restart tomcat
+#Desc : restart tomcat shell
 #Time : 2015-09-22
  
 tomcatpath="/usr/local/tomcat-8/"

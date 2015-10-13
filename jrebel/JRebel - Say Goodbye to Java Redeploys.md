@@ -2,7 +2,6 @@
 
 ![JRebel_0.jpg][0]
 
-[TOC]
 
 ####1. JRebel介绍
 >JRebel是一款JAVA虚拟机插件，它使得JAVA程序员能在不进行重部署的情况下，即时看到代码的改变对一个应用程序带来的影响。JRebel使你能即时分别看到代码、类和资源的变化，你可以一个个地上传而不是一次性全部部署。当程序员在开发环境中对任何一个类或者资源作出修改的时候，这个变化会直接反应在部署好的应用程序上，从而跳过了构建和部署的过程，节省时间。
@@ -204,10 +203,10 @@
 >> 破解的JRebel[下载][31]，密码：tnrq
    
 [0]:  ./images/jrebel_0.jpg "jrebel_0.jpg"
-[1]:  ./images/jrebel_0.jpg "jrebel_1.jpg"
-[2]:  ./images/jrebel_0.jpg "jrebel_2.jpg"
-[3]:  ./images/jrebel_0.jpg "jrebel_3.jpg"
-[4]:  ./images/jrebel_0.jpg "jrebel_4.jpg"
+[1]:  ./images/jrebel_1.jpg "jrebel_1.jpg"
+[2]:  ./images/jrebel_2.jpg "jrebel_2.jpg"
+[3]:  ./images/jrebel_3.jpg "jrebel_3.jpg"
+[4]:  ./images/jrebel_4.jpg "jrebel_4.jpg"
 [5]:  ./images/jrebel_5.jpg "jrebel_5.jpg"     
 [6]:  ./images/jrebel_6.jpg "jrebel_6.jpg"
 [7]:  ./images/jrebel_7.jpg "jrebel_7.jpg"

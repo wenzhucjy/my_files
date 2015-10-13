@@ -3,7 +3,7 @@
 #Desc : restart tomcat shell
 #Time : 2015-09-22
  
-tomcatpath="/usr/local/tomcat-8/"
+tomcatpath="/home/web/app/local/tomcat-8/"
 tomcatname="tomcat-8"
 tomcatsh="tomcat8.sh"
  

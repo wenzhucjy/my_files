@@ -5,7 +5,7 @@
 
 ####1. JRebel介绍
 >JRebel是一款JAVA虚拟机插件，它使得JAVA程序员能在不进行重部署的情况下，即时看到代码的改变对一个应用程序带来的影响。JRebel使你能即时分别看到代码、类和资源的变化，你可以一个个地上传而不是一次性全部部署。当程序员在开发环境中对任何一个类或者资源作出修改的时候，这个变化会直接反应在部署好的应用程序上，从而跳过了构建和部署的过程，节省时间。
-> 官网地址:[http://zeroturnaround.com][32]
+> 官网地址:[http://zeroturnaround.com][27]
 
 ####2. HotSwap的极限性与JRebel的扩展
 
@@ -120,9 +120,11 @@
 ![jrebel_12.jpg][12]
 
 #####5.3. 使用
->- JRebel在IntelliJ IDEA中的使用，分为本地`Local`热部署与远程`Remote`热部署，操作`Generates rebel.xml`或 `Generates rebel-remote.xml`，其中本地`Local`热部署需要`rebel.xml`文件，而远程`Remote`热部署需要`rebel.xml`和`rebel-remote.xml`两个文件，xml文件的[配置规则][3]。
+>- JRebel在IntelliJ IDEA中的使用，分为本地`Local`热部署与远程`Remote`热部署，其中本地`Local`热部署需要`rebel.xml`文件，而远程`Remote server`热部署需要`rebel.xml`和`rebel-remote.xml`两个文件，xml文件的[配置规则][28]。
+>- 生成`rebel.xml`，用于支持`Local`热部署，选择`Generates rebel.xml`
 
 ![jrebel_13.jpg][13]
+>- 生成`rebel-remote.xml`，用于支持`Remote server`热部署，选择`Generates rebel-remote.xml`
 
 ![jrebel_14.jpg][14]
 
@@ -132,8 +134,9 @@
 
 ![jrebel_15.jpg][15]
 
-######5.3.2. [远程`Remote`热部署][34]
+######5.3.2. [远程`Remote server`热部署][29]
 >若启用远程`Remote`热部署，在项目的`resources`目录下会生成 `rebel.xml`与`rebel-remote.xml`文件，如下图
+
 ![jrebel_16.jpg][16]
 
 >IntelliJ IDEA配置`Tomcat`，若需要远程热部署，则选择
@@ -198,9 +201,9 @@
 ![jrebel_25.jpg][25]
 
 
-> `zeroturnaround`公司的另一个产品[xrebel][35]的扩展，`-javaagent:D:/Java/xrebel-2.0.1-crack/xrebel/xrebel.jar`
+> `zeroturnaround`公司的另一个产品[xrebel][30]的扩展，`-javaagent:D:/Java/xrebel-2.0.1-crack/xrebel/xrebel.jar`
 
->> 破解的JRebel[下载][31]，密码：tnrq
+>> 破解的JRebel[下载][26]，密码：tnrq
    
 [0]:  ./images/jrebel_0.jpg "jrebel_0.jpg"
 [1]:  ./images/jrebel_1.jpg "jrebel_1.jpg"
@@ -228,8 +231,8 @@
 [23]:  ./images/jrebel_23.jpg "jrebel_23.jpg"
 [24]:  ./images/jrebel_24.jpg "jrebel_24.jpg"
 [25]:  ./images/jrebel_25.jpg "jrebel_25.jpg"
-[31]: http://pan.baidu.com/s/1jG6LnrK
-[32]: http://zeroturnaround.com
-[33]: http://manuals.zeroturnaround.com/jrebel/standalone/config.html
-[34]: https://zeroturnaround.com/software/jrebel/learn/remoting/setting-up-jrebel-remoting-with-intellij-idea-and-tomcat/
-[35]: http://zeroturnaround.com/software/xrebel/
+[26]: http://pan.baidu.com/s/1jG6LnrK
+[27]: http://zeroturnaround.com
+[28]: http://manuals.zeroturnaround.com/jrebel/standalone/config.html
+[29]: https://zeroturnaround.com/software/jrebel/learn/remoting/setting-up-jrebel-remoting-with-intellij-idea-and-tomcat/
+[30]: http://zeroturnaround.com/software/xrebel/

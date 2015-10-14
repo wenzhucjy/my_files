@@ -5,7 +5,7 @@
 
 ####1. JRebel介绍
 >JRebel是一款JAVA虚拟机插件，它使得JAVA程序员能在不进行重部署的情况下，即时看到代码的改变对一个应用程序带来的影响。JRebel使你能即时分别看到代码、类和资源的变化，你可以一个个地上传而不是一次性全部部署。当程序员在开发环境中对任何一个类或者资源作出修改的时候，这个变化会直接反应在部署好的应用程序上，从而跳过了构建和部署的过程，节省时间。
-> 官网地址:[http://zeroturnaround.com][27]
+> 官网地址:[http://zeroturnaround.com][32]
 
 ####2. HotSwap的极限性与JRebel的扩展
 
@@ -120,7 +120,7 @@
 ![jrebel_12.jpg][12]
 
 #####5.3. 使用
->- JRebel在IntelliJ IDEA中的使用，分为本地`Local`热部署与远程`Remote`热部署，其中本地`Local`热部署需要`rebel.xml`文件，而远程`Remote server`热部署需要`rebel.xml`和`rebel-remote.xml`两个文件，xml文件的[配置规则][28]。
+>- JRebel在IntelliJ IDEA中的使用，分为本地`Local`热部署与远程`Remote`热部署，其中本地`Local`热部署需要`rebel.xml`文件，而远程`Remote server`热部署需要`rebel.xml`和`rebel-remote.xml`两个文件，xml文件的[配置规则][33]。
 >- 生成`rebel.xml`，用于支持`Local`热部署，选择`Generates rebel.xml`
 
 ![jrebel_13.jpg][13]
@@ -134,7 +134,7 @@
 
 ![jrebel_15.jpg][15]
 
-######5.3.2. [远程`Remote server`热部署][29]
+######5.3.2. [远程`Remote server`热部署][34]
 >若启用远程`Remote`热部署，在项目的`resources`目录下会生成 `rebel.xml`与`rebel-remote.xml`文件，如下图
 
 ![jrebel_16.jpg][16]
@@ -150,29 +150,93 @@
 > 在 `Startup/Connection` 选择 `JRebel Debug`  -> `Transport`选择`Socket`，然后配置下`Port`，其中`Port`需参照远程服务器端Tomcat的启动脚本变量（远端服务器`$TOMCAT_HOME/bin`目录的`setenv.sh`或`setenv.bat`）中定义的`address`，以`setenv.sh`为例：
 
 ```bash
-# how-to-remotely-debug-application-running-on-tomcat-from-within-intellij-idea
- # http://blog.trifork.com/2014/07/14/how-to-remotely-debug-application-running-on-tomcat-from-within-intellij-idea/
- export CATALINA_OPTS="$CATALINA_OPTS -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
-# Set file encoding UTF-8
- export JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
- # Remote reloading java classes jrebel plugin.
-  export CATALINA_OPTS="$CATALINA_OPTS -javaagent:/home/vagrant/tools/jrebel/jrebel.jar -agentpath:/home/vagrant/tools/jrebel/libjrebel64.so -Drebel.disable_update=true -Drebel.remoting_plugin=true"
- echo "_______________________________________________"
- echo ""
- echo "Using CATALINA_OPTS:"
- for arg in $CATALINA_OPTS
- do
-     echo ">> " $arg
- done
- echo ""
+#! /bin/sh
+# ==================================================================
+#  ______                           __    
+# /_  __/___  ____ ___  _________ _/ /_ 
+#  / / / __ \/ __ `__ \/ ___/ __ `/ __/ 
+# / / / /_/ / / / / / / /__/ /_/ / /_   
+#/_/  \____/_/ /_/ /_/\___/\__,_/\__/   
 
- echo "Using JAVA_OPTS:"
- for arg in $JAVA_OPTS
- do
-     echo ">> " $arg
- done
- echo "_______________________________________________"
- echo ""
+# your customizations go here for any JAVA_OPTS and CATALINA_OPTS
+# ==================================================================
+
+# discourage address map swapping by setting Xms and Xmx to the same value
+# http://confluence.atlassian.com/display/DOC/Garbage+Collector+Performance+Issues
+export CATALINA_OPTS="$CATALINA_OPTS -Xms64m"
+export CATALINA_OPTS="$CATALINA_OPTS -Xmx800m"
+
+# Increase maximum perm size for web base applications to 4x the default amount
+# http://wiki.apache.org/tomcat/FAQ/Memoryhttp://wiki.apache.org/tomcat/FAQ/Memory
+# Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize, support was removed in 8.0
+# export CATALINA_OPTS="$CATALINA_OPTS -XX:MaxPermSize=1024m"
+
+# Reset the default stack size for threads to a lower value (by 1/10th original)
+# By default this can be anywhere between 512k -> 1024k depending on x32 or x64
+# bit Java version.
+# http://www.springsource.com/files/uploads/tomcat/tomcatx-large-scale-deployments.pdf
+# http://www.oracle.com/technetwork/java/hotspotfaq-138619.html
+export CATALINA_OPTS="$CATALINA_OPTS -Xss512k"
+
+# Oracle Java as default, uses the serial garbage collector on the
+# Full Tenured heap. The Young space is collected in parallel, but the
+# Tenured is not. This means that at a time of load if a full collection
+# event occurs, since the event is a 'stop-the-world' serial event then
+# all application threads other than the garbage collector thread are
+# taken off the CPU. This can have severe consequences if requests continue
+# to accrue during these 'outage' periods. (specifically webservices, webapps)
+# [Also enables adaptive sizing automatically]
+export CATALINA_OPTS="$CATALINA_OPTS -XX:+UseParallelGC"
+
+# This is interpreted as a hint to the garbage collector that pause times
+# of <nnn> milliseconds or less are desired. The garbage collector will
+# adjust the  Java heap size and other garbage collection related parameters
+# in an attempt to keep garbage collection pauses shorter than <nnn> milliseconds.
+# http://java.sun.com/docs/hotspot/gc5.0/ergo5.html
+export CATALINA_OPTS="$CATALINA_OPTS -XX:MaxGCPauseMillis=1500"
+
+# A hint to the virtual machine that it.s desirable that not more than:
+# 1 / (1 + GCTimeRation) of the application execution time be spent in
+# the garbage collector.
+# http://themindstorms.wordpress.com/2009/01/21/advanced-jvm-tuning-for-low-pause/
+export CATALINA_OPTS="$CATALINA_OPTS -XX:GCTimeRatio=9"
+
+# The hotspot server JVM has specific code-path optimizations
+# which yield an approximate 10% gain over the client version.
+export CATALINA_OPTS="$CATALINA_OPTS -server"
+
+# Disable remote (distributed) garbage collection by Java clients
+# and remove ability for applications to call explicit GC collection
+export CATALINA_OPTS="$CATALINA_OPTS -XX:+DisableExplicitGC"
+# how-to-remotely-debug-application-running-on-tomcat-from-within-intellij-idea
+# http://blog.trifork.com/2014/07/14/how-to-remotely-debug-application-running-on-tomcat-from-within-intellij-idea/
+export CATALINA_OPTS="$CATALINA_OPTS -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
+
+export JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
+
+# Remote reloading java classes jrebel plugin.
+export CATALINA_OPTS="$CATALINA_OPTS -javaagent:/home/vagrant/tools/jrebel/jrebel.jar -agentpath:/home/vagrant/tools/jrebel/libjrebel64.so -Drebel.disable_update=true -Drebel.remoting_plugin=true"
+# Check for application specific parameters at startup
+if [ -r "$CATALINA_BASE/bin/appenv.sh" ]; then
+  . "$CATALINA_BASE/bin/appenv.sh"
+fi
+
+echo "_______________________________________________"
+echo ""
+echo "Using CATALINA_OPTS:"
+for arg in $CATALINA_OPTS
+do
+    echo ">> " $arg
+done
+echo ""
+
+echo "Using JAVA_OPTS:"
+for arg in $JAVA_OPTS
+do
+    echo ">> " $arg
+done
+echo "_______________________________________________"
+echo ""
 ```
 > - 备注：`-Drebel.remoting_plugin=true` 表示启用JRebel远程热部署，而`-agentpath:/home/vagrant/tools/jrebel/libjrebel64.so`表示Linux环境，若为`Windows`环境则为 `-agentpath:D:/jrebel/lib/jrebel64.dll`。
 
@@ -201,10 +265,12 @@
 ![jrebel_25.jpg][25]
 
 
-> `zeroturnaround`公司的另一个产品[xrebel][30]的扩展，`-javaagent:D:/Java/xrebel-2.0.1-crack/xrebel/xrebel.jar`
+> `zeroturnaround`公司的另一个产品[xrebel][35]的扩展，`-javaagent:D:/Java/xrebel-2.0.1-crack/xrebel/xrebel.jar`
 
->> 破解的JRebel[下载][26]，密码：tnrq
-   
+>> 破解的`JRebel_crack`[下载][31]，密码：`3yw3`
+
+> 最后致谢`zeroturnaround`公司，[http://zeroturnaround.com/blog/][36]
+
 [0]:  ./images/jrebel_0.jpg "jrebel_0.jpg"
 [1]:  ./images/jrebel_1.jpg "jrebel_1.jpg"
 [2]:  ./images/jrebel_2.jpg "jrebel_2.jpg"
@@ -231,8 +297,9 @@
 [23]:  ./images/jrebel_23.jpg "jrebel_23.jpg"
 [24]:  ./images/jrebel_24.jpg "jrebel_24.jpg"
 [25]:  ./images/jrebel_25.jpg "jrebel_25.jpg"
-[26]: http://pan.baidu.com/s/1jG6LnrK
-[27]: http://zeroturnaround.com
-[28]: http://manuals.zeroturnaround.com/jrebel/standalone/config.html
-[29]: https://zeroturnaround.com/software/jrebel/learn/remoting/setting-up-jrebel-remoting-with-intellij-idea-and-tomcat/
-[30]: http://zeroturnaround.com/software/xrebel/
+[31]: http://pan.baidu.com/s/1jG93pe2
+[32]: http://zeroturnaround.com
+[33]: http://manuals.zeroturnaround.com/jrebel/standalone/config.html
+[34]: https://zeroturnaround.com/software/jrebel/learn/remoting/setting-up-jrebel-remoting-with-intellij-idea-and-tomcat/
+[35]: http://zeroturnaround.com/software/xrebel/
+[36]: http://zeroturnaround.com/blog/

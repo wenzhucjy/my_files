@@ -1,0 +1,1 @@
+set JAVA_OPTS=%JAVA_OPTS% -server -Xms2048m -Xmx2048m -XX:PermSize=1024m -XX:MaxPermSize=1024m -Dfile.encoding=UTF-8 -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+CMSClassUnloadingEnabled -XX:-HeapDumpOnOutOfMemoryError

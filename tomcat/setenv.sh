@@ -10,24 +10,8 @@
 # on best-practices as defined by Apache, SpringSource, and MuleSoft
 # and enterprise use with large-scale deployments.
 
-# Credits:
-#       Google -> Couldn't survive without it
-#       Stackoverflow.com -> Community support
-#       SpringSource -> Specifically best-practices and seminars (Expert Series)
-
-# Based On:
-#       http://www.springsource.com/files/uploads/tomcat/tomcatx-performance-tuning.pdf
-#       http://www.springsource.com/files/u1/PerformanceTuningApacheTomcat-Part2.pdf
-#       http://www.springsource.com/files/uploads/tomcat/tomcatx-large-scale-deployments.pdf
-
-# Created By: Terrance A. Snyder
-# URL: http://www.terranceasnyder.com, http://shutupandcode.net
-
-# Best Practice Documentation:
-# http://terranceasnyder.com/2011/05/tomcat-best-practices/
-
 # Looking for the latest version?
-# github @ https://github.com/terrancesnyder
+# github @ https://github.com/wenzhucjy
 
 # ==================================================================
 
@@ -83,6 +67,13 @@ export CATALINA_OPTS="$CATALINA_OPTS -XX:+DisableExplicitGC"
 export CATALINA_OPTS="$CATALINA_OPTS -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
 
 export JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
+
+#It's also a good idea to configure Tomcat memory utilization,http://wiki.openkm.com/index.php/Configure_Tomcat_service_linux
+
+#JAVA_OPTS="-Xms256m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=256m -Djava.awt.headless=true -Dfile.encoding=utf-8"
+#JAVA_OPTS="$JAVA_OPTS -XX:+UseConcMarkSweepGC -Dlog4j.configuration=file://$CATALINA_HOME/conf/log4j.properties"
+#CATALINA_PID=$CATALINA_HOME/catalina.pid
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CATALINA_HOME/lib/sigar
 
 # Remote reloading java classes jrebel plugin.
 export CATALINA_OPTS="$CATALINA_OPTS -javaagent:/home/vagrant/tools/jrebel/jrebel.jar -agentpath:/home/vagrant/tools/jrebel/libjrebel64.so -Drebel.disable_update=true -Drebel.remoting_plugin=true"

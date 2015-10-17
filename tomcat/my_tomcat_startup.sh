@@ -51,7 +51,7 @@
 # if [ "${PID}" ]; then
 #
 #	echo "##### Tomcat is running. PID is ${PID}."
-#
+#	#ps -ef | grep java | grep -v grep | awk '{print $2}' | xargs kill -9
 #	eval "kill -9  ${PID}"
 #	
 #   #$TOMCAT_HOME/bin/shutdown.sh

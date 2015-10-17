@@ -28,50 +28,56 @@
 # service tomcat {start | stop | restart | status}
 #
 # Author: jy.chen
-# Date: 2015/10/16
+# Date: 2015/10/17
 #####################################################
 
+ECHO=/bin/echo
+TEST=/usr/bin/test
+TOMCAT_USER=vagrant
+TOMCAT_HOME=/home/vagrant/tools/apache-tomcat/apache-tomcat-8.0.27
+TOMCAT_START_SCRIPT=$TOMCAT_HOME/bin/startup.sh
+TOMCAT_STOP_SCRIPT=$TOMCAT_HOME/bin/shutdown.sh
+ 
+$TEST -x $TOMCAT_START_SCRIPT || exit 0
+$TEST -x $TOMCAT_STOP_SCRIPT || exit 0
+
 #if [ -z "$JAVA_HOME" ]; then
-#   echo "error: JAVA_HOME is not set"
+#   $ECHO "error: JAVA_HOME is not set"
 #   exit 1
 #fi
 
-
-TOMCAT_HOME=/home/vagrant/tools/apache-tomcat/apache-tomcat-8.0.27
-
-
 if [ -z "$TOMCAT_HOME" ]; then
-   echo "##### Error: TOMCAT_HOME is not set."
+   $ECHO "##### Error: TOMCAT_HOME is not set."
    exit 1
 fi
 
 # Friendly Logo
 logo()
 {
-        echo ""
-        echo "  ______                           __  "
-        echo " /_  __/___  ____ ___  _________ _/ /_ "
-        echo "  / / / __ \/ __  __ \/ ___/ __  / __/ "
-        echo " / / / /_/ / / / / / / /__/ /_/ / /_   "
-        echo "/_/  \____/_/ /_/ /_/\___/\__,_/\__/   "
-        echo "                                       "
-        echo "                                       "
+        $ECHO ""
+        $ECHO "  ______                           __  "
+        $ECHO " /_  __/___  ____ ___  _________ _/ /_ "
+        $ECHO "  / / / __ \/ __  __ \/ ___/ __  / __/ "
+        $ECHO " / / / /_/ / / / / / / /__/ /_/ / /_   "
+        $ECHO "/_/  \____/_/ /_/ /_/\___/\__,_/\__/   "
+        $ECHO "                                       "
+        $ECHO "                                       "
 }
 
 # Help
 usage()
 {
         logo
-        echo ""
-        echo "usage:"
-        echo "   $0 [start | stop | status | restart]"
-        echo ""
-        echo "examples:"
-        echo "   $0 start 	  -> Start tomcat instances currently configured"
-        echo "   $0 stop  	  -> Stop tomcat instances currently configured"
-		echo "   $0 status    -> Show tomcat instances status currently configured"
-		echo "   $0 restart   -> Restart tomcat instances currently configured"
-        echo ""
+        $ECHO ""
+        $ECHO "usage:"
+        $ECHO "   $0 [start | stop | status | restart]"
+        $ECHO ""
+        $ECHO "examples:"
+        $ECHO "   $0 start 	  -> Start tomcat instances currently configured"
+        $ECHO "   $0 stop  	  -> Stop tomcat instances currently configured"
+		$ECHO "   $0 status    -> Show tomcat instances status currently configured"
+		$ECHO "   $0 restart   -> Restart tomcat instances currently configured"
+        $ECHO ""
 }
 
 
@@ -87,29 +93,37 @@ is_Running ()
  fi
 }
 
-
-#if [ $# -ne 1 ];then
-#   echo 
-#   echo "usage start | stop | status | restart "
-#fi
+# Start 
+start() {
+    $ECHO -n "##### Tomcat is  starting ..."
+	su - $TOMCAT_USER -c "$TOMCAT_START_SCRIPT &"
+	sleep 3
+	$ECHO
+	$ECHO "##### Tomcat is already started."
+}
+# Stop
+stop() {
+	 $ECHO -n "##### Tomcat is shutdowning ..."
+	 su - $TOMCAT_USER -c "$TOMCAT_STOP_SCRIPT 60 -force &"
+	 while [ "$(ps -fu $TOMCAT_USER | grep java | grep tomcat | wc -l)" -gt "0" ]; do
+        sleep 5; $ECHO -n "."
+     done
+	 $ECHO -n "##### Tomcat is already stopped."
+}
 
 # define 
 ACTION="$1"
 
-case $1 in
+case $ACTION in
 
 start)
     is_Running
 	retval=$?
 	
 	if ( test "$retval" -eq 0 ) then
-		echo "##### Tomcat is running,can not start again."
+		$ECHO "##### Tomcat is running,can not start again."
 	else
-	   echo "##### Tomcat is  starting ..."
-	   bash $TOMCAT_HOME/bin/startup.sh 
-	   sleep 3
-	   echo
-	   echo "##### Tomcat is already started."
+	  start
 	fi
    ;;
 
@@ -117,54 +131,49 @@ stop)
     is_Running
 	retval=$?
 	if ( test "$retval" -eq 0 ) then
-	   echo "##### Tomcat is shutdowning ..."
-	   bash $TOMCAT_HOME/bin/shutdown.sh 
-	   sleep 1 
-	   echo
-	   echo "##### Tomcat is already stopped."
+	  stop
 	else
-	   echo "##### Tomcat is already stopped,can not shutdown again."
+	   $ECHO "##### Tomcat is already stopped,can not shutdown again."
 	fi
     ;;
 
 status)
-
     is_Running
 	retval=$?
 	if ( test "$retval" -eq 0 ) then
-		echo "##### Tomcat is running,PID is $PID"
+		$ECHO "##### Tomcat is running,PID is $PID"
 	else
-	   echo "##### Tomcat is stopped."
+	   $ECHO "##### Tomcat is stopped."
 	fi
     ;;
 
 restart)
-
+	
 	PID=$(ps -ef | grep java | grep -v grep | awk '{print $2}')
 
 	if [ "${PID}" ]; then
 
 		eval "kill -9  ${PID}"
 
-		echo "##### Tomcat is running, begin shutdown tomcat ..."
-		echo
+		$ECHO "##### Tomcat is running, begin shutdown tomcat ..."
+		$ECHO
+		$ECHO "##### Restarting tomcat ..."
+        su - $TOMCAT_USER -c "$TOMCAT_START_SCRIPT &"
 		sleep 3
-		echo "##### Restarting tomcat ..."
-        bash $TOMCAT_HOME/bin/startup.sh
-		sleep 3
-		echo 
-		echo "##### Tomcat is started."
+		$ECHO 
+		$ECHO "##### Tomcat is started."
 	else
-	  echo "##### Tomcat is stop , begin start tomcat ..."
-	  $TOMCAT_HOME/bin/startup.sh 
+	  $ECHO "##### Tomcat is stop , begin start tomcat ..."
+	  su - $TOMCAT_USER -c "$TOMCAT_START_SCRIPT &"
 	  sleep 3
-	  echo
-	  echo "##### Tomcat is started."
+	  $ECHO
+	  $ECHO "##### Tomcat is started."
 
 	fi
     ;;
 *)
 	usage
+	exit 1
 	;;
 esac
-
+exit 0

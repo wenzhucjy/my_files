@@ -16,7 +16,6 @@
 # wget -O - http://localhost:8080/portal >& /dev/null
 # RTN=$?
 # if [ $RTN -eq 0 ];then
-# ############ another way ###########
 # #if( test $? -eq 0 ) then
 #   echo "tomcat is running."
 # elif
@@ -51,7 +50,7 @@
 # if [ "${PID}" ]; then
 #
 #	echo "##### Tomcat is running. PID is ${PID}."
-#	#ps -ef | grep java | grep -v grep | awk '{print $2}' | xargs kill -9
+#
 #	eval "kill -9  ${PID}"
 #	
 #   #$TOMCAT_HOME/bin/shutdown.sh
@@ -67,39 +66,49 @@ echo
 
 if [ -z "$TOMCAT_HOME" ]; then
 	echo "##### TOMCAT_HOME must be defined"
-	exit 20
+	exit 1
 fi
 
 if [ ! -d "$TOMCAT_HOME" ]; then
 	echo "##### $TOMCAT_HOME is not a valid directory"
-	exit 21
+	exit 1
 fi
 
-LISTEN_PORT=8080
-TEMP_WARDIR=/home/vagrant/tools/temp_war
-APPNAME=portal.war
-APP=`basename $APPNAME .war` 
-APPDIR="$TOMCAT_HOME/webapps/$APP"
-NEWWARDIR=/comet/comet_portal/build/libs/comet-portal-1.0-SNAPSHOT.war
+CONF_DIR="$TOMCAT_HOME/conf/Catalina/localhost"
 
-if [ ! -f "$NEWWARDIR" ];then
-	echo "##### Deploy path $NEWWARDIR is not exist.  Nothing done."
-	exit 30
+if [ ! -d "$CONF_DIR" ];then
+	echo "##### $CONF_DIR is not exist.  Nothing done."
+	exit 1
+fi
+
+DEPLOY_DIR=/home/vagrant/tools/apache-tomcat/war/deployWar
+WAR_FILE=$(ls -tr /comet/comet_portal/build/libs/*.war | tail -1)
+WAR_NAME=$(basename $WAR_FILE)
+
+if [ ! -f "$WAR_FILE" ];then
+	echo "##### Deploy path $WAR_FILE is not exist.  Nothing done."
+	exit 1
+fi
+
+# check deploy_dir , is not exist then mkdir -p $deploy_dir
+if [ ! -d "$DEPLOY_DIR" ]; then
+	echo "##### $DEPLOY_DIR is not exist. mkdir it now."
+	mkdir -p "$DEPLOY_DIR"
+fi
+
+ORIGINAL_FILE=$(ls -tr $DEPLOY_DIR/*.war | tail -1)
+
+if [ "$WAR_FILE" -ot "$ORIGINAL_FILE" ]; then
+	echo "##### The file $WAR_FILE is older than the $ORIGINAL_FILE.  Nothing done." 
+	exit 1
+else
+
+	echo "##### Copy $WAR_FILE to $DEPLOY_DIR "
+
+	cp -p $WAR_FILE $DEPLOY_DIR
 fi
 
 
-if [ ! -d "$TEMP_WARDIR" ]; then
-	echo "##### The $TEMP_WARDIR is not exist. mkdir it now."
-	mkdir -p "$TEMP_WARDIR"
-fi
-
-
-cp -p "$NEWWARDIR" "$TEMP_WARDIR/$APPNAME"
-
-if [ "$TEMP_WARDIR/$APPNAME" -ot "$APPDIR.war" ]; then
-	echo "##### The file $TEMP_WARDIR/$APPNAME is older than the $APPDIR.war.  Nothing done." 
-	exit 40
-fi
 # start the process
 
 #STAT=$(netstat -na | grep $LISTEN_PORT | awk '{print $6}')　
@@ -112,32 +121,55 @@ if [ "${PID}" ]; then
 
 	eval "kill -9  ${PID}"
 	
-    #$TOMCAT_HOME/bin/shutdown.sh
+    #$TOMCAT_HOME/bin/shutdown.sh  > /dev/null 2>&1
 
-	echo "##### Shutdown tomcat ..."
+	echo "##### Tomcat is already stopped."
 	echo
+	
 fi
 
-sleep 3
+sleep 2
 
-if [ -d "$APPDIR" ]; then
-	rm -fr "$APPDIR"
-	rm -fr "$APPDIR.war"
-	echo "##### Remove $APPDIR and $APPNAME ..."
+
+#################### Generate context conf file , then restart tomcat ##################
+
+# Format $WAR_NAME , portal##20151019153000.war
+#CONF_FILE=$(echo $WAR_NAME | sed 's/.*\#\#\(.*\)\.war/\1/' )
+
+CONF_FILE=$(echo $WAR_NAME | awk -F '.' '{print $1}')
+CTX=$(echo $WAR_NAME | awk -F '##' '{print $1}')
+
+WEBAPPS=$TOMCAT_HOME/webapps/$CTX*
+
+if [ -f "$WEBAPPS" ]; then
+	rm -fr "$WEBAPPS"
+	echo "##### Remove $WEBAPPS ..."
 
 fi
 
-if [ "$TEMP_WARDIR/$APPNAME" != "$APPDIR.war" ]; then
-	echo "##### Copy $TEMP_WARDIR/$APPNAME to $TOMCAT_HOME/webapps"
-	cp -p "$TEMP_WARDIR/$APPNAME" "$TOMCAT_HOME/webapps"
+if [ ! -f "$CONF_DIR/$CTX*.xml" ];then
+	echo "##### Remove $CONF_DIR/$CTX*.xml."
+	rm -f "$CONF_DIR/$CTX*.xml"
 fi
+
+echo "##### The context conf file name : $CONF_FILE"
+
+CTX_XML=$CONF_DIR/$CONF_FILE.xml
+
+echo "##### ReGenerate context conf file for tomcat deploy."
+
+ctxCont='<Context displayName="'$CTX'" docBase="'$DEPLOY_DIR/$WAR_NAME'" reloadable="true" />'
+
+echo $ctxCont > $CTX_XML
+
+echo "##### ctxCont:  $ctxCont"
 
 	$TOMCAT_HOME/bin/startup.sh
 	
 	echo "##### Starting Tomcat ..."
 
 
-sleep 5
+sleep 4
 
 echo
 echo "##### Shell finished .......Done!"

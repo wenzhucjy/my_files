@@ -78,8 +78,8 @@ export JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
 # Remote reloading java classes jrebel plugin.
 export CATALINA_OPTS="$CATALINA_OPTS -javaagent:/home/vagrant/tools/jrebel/jrebel.jar -agentpath:/home/vagrant/tools/jrebel/libjrebel64.so -Drebel.disable_update=true -Drebel.remoting_plugin=true"
 # Check for application specific parameters at startup
-if [ -r "$CATALINA_BASE/bin/appenv.sh" ]; then
-  . "$CATALINA_BASE/bin/appenv.sh"
+if [ -r "$TOMCAT_HOME/bin/appenv.sh" ]; then
+  . "$TOMCAT_HOME/bin/appenv.sh"
 fi
 
 echo "_______________________________________________"

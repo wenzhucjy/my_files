@@ -37,6 +37,7 @@ TOMCAT_USER=vagrant
 TOMCAT_HOME=/home/vagrant/tools/apache-tomcat/apache-tomcat-8.0.27
 TOMCAT_START_SCRIPT=$TOMCAT_HOME/bin/startup.sh
 TOMCAT_STOP_SCRIPT=$TOMCAT_HOME/bin/shutdown.sh
+CATALINA_PID=$TOMCAT_HOME/bin/catalina.pid
  
 $TEST -x $TOMCAT_START_SCRIPT || exit 0
 $TEST -x $TOMCAT_STOP_SCRIPT || exit 0
@@ -95,7 +96,7 @@ is_Running ()
 
 # Start 
 start() {
-    $ECHO -n "##### Tomcat is  starting ..."
+    $ECHO "##### Tomcat is  starting ..."
 	su - $TOMCAT_USER -c "$TOMCAT_START_SCRIPT &"
 	sleep 3
 	$ECHO
@@ -103,12 +104,12 @@ start() {
 }
 # Stop
 stop() {
-	 $ECHO -n "##### Tomcat is shutdowning ..."
+	 $ECHO "##### Tomcat is shutdowning ..."
 	 su - $TOMCAT_USER -c "$TOMCAT_STOP_SCRIPT 60 -force &"
 	 while [ "$(ps -fu $TOMCAT_USER | grep java | grep tomcat | wc -l)" -gt "0" ]; do
         sleep 5; $ECHO -n "."
      done
-	 $ECHO -n "##### Tomcat is already stopped."
+	 $ECHO "##### Tomcat is already stopped."
 }
 
 # define 

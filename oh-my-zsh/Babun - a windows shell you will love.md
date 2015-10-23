@@ -22,10 +22,10 @@
 >- 历史记录，`Zsh` 的历史记录跨 session，可以共享，历史记录支持受限查找。如输入git，再按向上箭头，会搜索用过的所有 git 命令
 >- `Babun`默认自动装`oh-my-zsh`，若无执行`sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"`即可，然后`source .zshrc`，切换`bash shell`执行`chsh -s /bin/zsh`或`sudo usermod -s /bin/zsh web`即改变`web`用户的`Bash`
 >- `Zsh`命令的提示更为强大
-![z](./1445587590775.png)
+![z](./images/oh-my-zsh-01.png)
 
 >- `Zsh` 指令搜索提示
-![Alt text](./1445588106483.png)
+![z](./images/oh-my-zsh-02.png)
 
 #### 4.插件
 > 常用插件：`z zsh_reload zsh-syntax-highligting git git-flow pip npm ...`

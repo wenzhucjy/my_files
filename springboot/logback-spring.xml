@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- profile active -->
+    <!--<springProfile name="development">
+           &lt;!&ndash; configuration to be enabled when the "staging" profile is active &ndash;&gt;
+           <logger name="com.anyfish.portal" level="INFO"/>
+       </springProfile>-->
+    <!-- use defaults configure -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <property name="LOG_DIR" value="/var/log/mars_log"/>
+    
+    <!-- project default level -->
+    <logger name="com.anyfish" level="DEBUG"/>
+    
+    <!--pattern log with yyyyMMdd'T'HHmmss-->
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+    
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <file>${LOG_DIR}/comet_portal${bySecond}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/comet_portal${bySecond}.%d{yyyy-MM-dd}.log.%i</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>5MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    
+    <!-- springframework error log -->
+    <appender name="springAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/portal.spring.${bySecond}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/portal.spring.${bySecond}.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- show spring DEBUG/ERROR info -->
+    <logger name="org.springframework" level="ERROR" additivity="false">
+        <appender-ref ref="springAppender"/>
+    </logger>
+    
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

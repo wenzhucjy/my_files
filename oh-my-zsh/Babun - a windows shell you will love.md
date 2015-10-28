@@ -100,6 +100,15 @@ sudo rpm -Uvh http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release
 sudo yum install the_silver_searcher
 ```
 
+#####4.11. [**ConEmu**][13]
+>`ConEmu` 是一个带标签的Windows终端，提供多标签支持和丰富的自定义选项，是Windows下不可多得的Console，将`Babun`加入到`ConEmu`：
+>- In ConEmu
+>- Go to Settings>Startup>Tasks
+> Create a new task
+> Task parameters /icon 
+> "%userprofile%\.babun\cygwin\bin\mintty.exe" /dir "%userprofile%"
+> Commands %userprofile%\.babun\cygwin\bin\mintty.exe -
+
 
   [1]: http://babun.github.io/
   [2]: https://github.com/robbyrussell/oh-my-zsh/wiki/themes
@@ -113,3 +122,4 @@ sudo yum install the_silver_searcher
   [10]: http://hisham.hm/htop/
   [11]: https://github.com/jingweno/ccat
   [12]: https://github.com/ggreer/the_silver_searcher
+ [13]: https://conemu.github.io/

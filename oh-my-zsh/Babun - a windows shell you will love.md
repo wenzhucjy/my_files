@@ -108,6 +108,18 @@ sudo yum install the_silver_searcher
 > Task parameters /icon 
 > "%userprofile%\.babun\cygwin\bin\mintty.exe" /dir "%userprofile%"
 > Commands %userprofile%\.babun\cygwin\bin\mintty.exe -
+>>`Clink - Powerful Bash-style command line editing for cmd.exe`
+>>`Clink`提高用户在 Microsoft Windows 的 "cmd.exe" 中的工作效率,让 `cmd` 像 Linux 终端一样容易使用。
+>>[http://mridgers.github.io/clink/][14]
+> - New keyboard shortcuts;
+- Paste from clipboard (Ctrl-V).
+- Incremental history search (Ctrl-R/Ctrl-S).
+- Powerful completion (TAB).
+- Undo (Ctrl-Z).
+- Automatic “cd ..” (Ctrl-Alt-U).
+- Environment variable expansion (Ctrl-Alt-E).
+- (press Alt-H for many more…)
+
 
 
   [1]: http://babun.github.io/
@@ -122,4 +134,5 @@ sudo yum install the_silver_searcher
   [10]: http://hisham.hm/htop/
   [11]: https://github.com/jingweno/ccat
   [12]: https://github.com/ggreer/the_silver_searcher
- [13]: https://conemu.github.io/
+  [13]: https://conemu.github.io/
+  [14]: http://mridgers.github.io/clink/

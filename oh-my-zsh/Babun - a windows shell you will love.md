@@ -11,18 +11,30 @@
 - 也可用`/t "D:\target_folder"`的模式指定安装目录
 - 安装默认目录：`%USER_HOME%\.babun\cygwin\home`
 
-####3. 配置及`Zsh`特性
+####3. 配置及`oh-my-zsh`特性
 #####3.1.`Babun`配置
 >- `babun check` 判断环境是否正确
 >- `babun update` 是否有新更新包
 >- `pact` 系统自带的包管理工具
 
-#####3.2.`Zsh`特性
->- 安装：先`chsh -l`检查是否有`zsh`，若无执行`sudo apt-get | yum install zsh `，然后执行`sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"`即可安装`oh-my-zsh`
+#####3.2.`oh-my-zsh`特性
+```
+         __                                     __
+  ____  / /_     ____ ___  __  __   ____  _____/ /_
+ / __ \/ __ \   / __ `__ \/ / / /  /_  / / ___/ __ \
+/ /_/ / / / /  / / / / / / /_/ /    / /_(__  ) / / /
+\____/_/ /_/  /_/ /_/ /_/\__, /    /___/____/_/ /_/
+                        /____/
+```
+>- 自动安装：先`chsh -l`检查是否有`zsh`，若无执行`sudo apt-get | yum install zsh `，然后执行`sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"`或`sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"`即可安装`oh-my-zsh`
+>- 手动安装：
+>>`git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh`
+>>`cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc`
+
 >- `Zsh`内置了大量主题，可在`~/.oh-my-zsh/themes`中查看具体的配置。官网提供了一些主题的[截图][2]，推荐用[prose主题][3]。
 >- 以前杀进程是`ps aux | grep xxx`查进程的 PID，然后`kill PID`。有了 `zsh`，直接kill xxx然后按下 tab 键即可，如`kill java # 按下 tab，变成：kill 9997`
 >- `Zsh` 不仅支持普通 alias，还支持针对文件类型的 alias，具体参照[.zshrc样例][4]
->- 跳转更为智能，输入`d`，将列出当前 session 访问过的所有目录，再按提示的数字即可进入相应目录
+>- 跳转更为智能，输入`d`，将列出当前 session 访问过的所有目录，再按提示的数字即可进入相应目录，可直接输入`..`代替`cd ..`，而`...`代替`cd ../..`
 >- 历史记录，`Zsh` 的历史记录跨 session，可以共享，历史记录支持受限查找。如输入git，再按向上箭头，会搜索用过的所有 git 命令
 >- `Babun`默认自动装`oh-my-zsh`，若无执行`sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"`即可，然后`source .zshrc`，切换`bash shell`执行`chsh -s /bin/zsh`或`sudo usermod -s /bin/zsh web`即改变`web`用户的`Bash`
 >- `Zsh`命令的提示更为强大
@@ -49,8 +61,12 @@ curl -OL https://raw.github.com/nvie/gitflow/develop/contrib/gitflow-installer.s
 $ chmod +x gitflow-installer.sh
 $ sudo ./gitflow-installer.sh
 ```
-#####4.3. **z**
+#####4.3. **z** 与 **autojump**
 > `z` 是`oh-my-zsh`的一个插件目录位于`.oh-my-zsh/custom/plugin`，修改`.zshrc`的`plugin`添加`z`即可启用，与`autojump`类似，[Plugin:autojump][5]
+> `autojump`可以直接在`.zshrc`文件中的`plugin`启用，若无此插件，执行`git clone git://github.com/joelthelion/autojump.git`，解压缩后进入目录，执行`./install.py`最后把以下代码加入`.zshrc`：
+```
+[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && . ~/.autojump/etc/profile.d/autojump.sh
+```
 
 #####4.4. **git**
 >精简 git 命令，减少输入字符数。参见 [Plugin:git][6]
@@ -105,12 +121,10 @@ sudo yum install the_silver_searcher
 >- In ConEmu
 >- Go to Settings>Startup>Tasks
 > Create a new task
-> Task parameters /icon 
-> "%userprofile%\.babun\cygwin\bin\mintty.exe" /dir "%userprofile%"
-> Commands %userprofile%\.babun\cygwin\bin\mintty.exe -
+>- Task parameters： `/icon "%userprofile%\.babun\cygwin\bin\mintty.exe" /dir "%userprofile%"`
+>- Commands： `%userprofile%\.babun\cygwin\bin\mintty.exe -`
 >>`Clink - Powerful Bash-style command line editing for cmd.exe`
->>`Clink`提高用户在 Microsoft Windows 的 "cmd.exe" 中的工作效率,让 `cmd` 像 Linux 终端一样容易使用。
->>[http://mridgers.github.io/clink/][14]
+>>**[Clink][14]**可以提高用户在 Microsoft Windows 的 "cmd.exe" 中的工作效率,让 `cmd` 像 Linux 终端一样容易使用。
 > - New keyboard shortcuts;
 - Paste from clipboard (Ctrl-V).
 - Incremental history search (Ctrl-R/Ctrl-S).
@@ -134,5 +148,5 @@ sudo yum install the_silver_searcher
   [10]: http://hisham.hm/htop/
   [11]: https://github.com/jingweno/ccat
   [12]: https://github.com/ggreer/the_silver_searcher
-  [13]: https://conemu.github.io/
-  [14]: http://mridgers.github.io/clink/
+ [13]: https://conemu.github.io/
+ [14]: http://mridgers.github.io/clink/

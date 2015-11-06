@@ -1,4 +1,4 @@
-### Babun - a windows shell you will love
+### Babun(Oh-my-zsh) - 终极Shell
 
 
 ####1. 优势
@@ -123,16 +123,18 @@ sudo yum install the_silver_searcher
 > Create a new task
 >- Task parameters： `/icon "%userprofile%\.babun\cygwin\bin\mintty.exe" /dir "%userprofile%"`
 >- Commands： `%userprofile%\.babun\cygwin\bin\mintty.exe -`
->>`Clink - Powerful Bash-style command line editing for cmd.exe`
->>**[Clink][14]**可以提高用户在 Microsoft Windows 的 "cmd.exe" 中的工作效率,让 `cmd` 像 Linux 终端一样容易使用。
-> - New keyboard shortcuts;
-- Paste from clipboard (Ctrl-V).
-- Incremental history search (Ctrl-R/Ctrl-S).
-- Powerful completion (TAB).
-- Undo (Ctrl-Z).
-- Automatic “cd ..” (Ctrl-Alt-U).
-- Environment variable expansion (Ctrl-Alt-E).
-- (press Alt-H for many more…)
+
+>**[Clink][14]** - Powerful Bash-style command line editing for cmd.exe
+>`Clink`可以提高用户在 Microsoft Windows 的 "cmd.exe" 中的工作效率,让 `cmd` 像 Linux 终端一样容易使用。
+
+>`Clink`快捷键
+- 从剪贴板粘贴 (Ctrl-V).
+- 增量搜索历史 (Ctrl-R/Ctrl-S).
+- 代码提示 (TAB).
+- 恢复 (Ctrl-Z).
+- 自动 “cd ..” (Ctrl-Alt-U).
+- 环境变量扩展(Ctrl-Alt-E).
+- 帮助信息(Alt-H)
 
 
 

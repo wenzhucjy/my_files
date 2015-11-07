@@ -141,7 +141,7 @@ dependencies {
 
 >***范例***
 
-```
+```html
 //===============#lists================
  1. th:unless="${#lists.isEmpty(demoList)}"
  2. th:unless="${#lists.isEmpty(demoList)}"
@@ -181,7 +181,7 @@ public class Foo {
 
 #####3.4 ***a*** 标签的使用
 
-```
+```html
 1. <a th:href="@{~/other-app/hello.html}" />  //相对路径
 2. <a href="http://www.xxx.cn" th:href="@{'http://www.xxx.cn'}" />  //绝对路径
 3. <a href="http://www.xxx.cn" th:href="@{/login(radom=${radom})}"  th:data="@{'/url?page=' + ${page+1} + '&amp;a=' + ${a}}" />
@@ -195,7 +195,7 @@ public class Foo {
 #####3.5 文字替换
 >th:text="${data}",将data的值替换该属性所在标签的body，字符常量要用引号
 
-```
+```html
 1. <span th:text="'Welcome to our application, ' + ${user.name} + '!'">
 2.  th:text="|${entity.nationName ?: ''} ${entity.provinceName ?: ''} ${entity.cityName ?: ''} ${entity.entityAddress ?: ''}|">中国 福建 厦门 思明区</p> 
 3. th:if="${prodStat.count} &gt; 1"
@@ -204,16 +204,16 @@ public class Foo {
 ```
 
 #####3.6 设置属性值
-######3.6.1 **th:attr** 与  **th:[tagAttr]**
+######3.6.1 `th:attr` 与  `th:[tagAttr]`
 >- th:attr，设置标签属性，多个属性可以用逗号分隔，比如th:attr="src=@{/image/aa.jpg},title=#{logo}"，此标签不太优雅，一般用的比较少
 >- th:[tagAttr],设置标签的各个属性，比如th:value,th:action等。
 >>可以一次设置两个属性，比如：th:alt-title="#{logo}"
 >>对属性增加前缀和后缀，用th:attrappend，th:attrprepend,比如：`th:attrappend="class=${' '+cssStyle}"`
 >>对于属性是有些特定值的，比如checked属性，thymeleaf都采用bool值，比如th:checked=${user.isActive}，这里，user.isActive=false时应该checked是不会出现这个attr的
 >>固定值的布尔属性：
->>![Alt text](./image/thymeleaf_01.png)
+>>![Alt text](./image/thymeleaf_02.png)
 
-```
+```html
 1. <img src="../../images/gtvglogo.png" 
      th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" /> 等价于
    <img src="../../images/gtvglogo.png" 
@@ -258,9 +258,9 @@ public class Foo {
 >Thymeleaf 的迭代使用`th:each` 循环，`<tr th:each="user,userStat:${users}" th:class="${userStat.count} % 2 == 0 ? 'green':'gold'">`,userStat是状态变量，有 ***`index,count,size,current,even,odd,first,last`***等属性，如果没有显示设置状态变量，Thymeleaf会默认给个“变量名+Stat"的状态变量，也可直接修改
 
 #####3.8 判断表达式
->`th:if`  与  `th:unless`
+######3.8.1 `th:if`  与  `th:unless`
 
-```
+```html
 <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
     <td th:text="${prod.name}">Onions</td>
     <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
@@ -272,7 +272,7 @@ public class Foo {
 </tr>    
 ```
 
->`th:switch th:case`
+######3.8.2 `th:switch` 与 `th:case`
 
 ```
 <div th:switch="${user.role}">
@@ -283,7 +283,7 @@ public class Foo {
 ```
 
 #####3.9 模板布局
-###### 3.9.1 **th:fragment**
+###### 3.9.1 `th:fragment`
 >- `th:fragment`，为片段标记，指定一个模板内一部分代码为一个片段。如`/WEB-INF/templates/fragments/header.html`页面内容如下：
 
 ```
@@ -297,11 +297,11 @@ public class Foo {
 </head>
 ```
 
-###### 3.9.2 **th:include**与**th:replace**
+###### 3.9.2 `th:include` 与  `th:replace`
 >- `th:include`和`th:replace`的区别在于前者包含片段的内容到当前标签内，后者是用整个片段（内容和上一层）替换当前标签（不仅仅是标签内容）。若页面上需要包含上述`header.html`内容，可使用` <div th:include="fragments/header :: header "></div> ` ，相当于JSP中常用的  `<%@ include file="/WEB-INF/templates/fragments/header.jsp"%>`
 >- 假如`/WEB-INF/templates/footer.html`内容为：
 
-```
+```html
 <div id="copy-section">
   &copy; 2011 The Good Thymes Virtual Grocery
 </div>
@@ -309,12 +309,12 @@ public class Foo {
 
 >要包含此页面`th:include`可写成
 
-```
+```html
 <div th:include="footer :: #copy-section"></div>
 ```
 >另一个典型的范例
 
-```
+```html
   <div th:include="fragments/msgbox :: msgbox2(${message})"></div> 
 <div class="msgbox" th:fragment="msgbox2(msg)">
 <span  th:if="${msg != null}">
@@ -337,7 +337,7 @@ title: "信息"
 
 >另外一种快捷的移除或附加代码方案：
 
-```
+```javascript
 ================js附加代码：================
 /*[+
 var msg = 'This is a working application';
@@ -354,18 +354,31 @@ var msg = 'This is a non-working template';
 
 #####3.10 属性优先级
 
->由于一个标签内可以包含多个th:x属性，其先后顺序为：**`include,replace,each,if/unless/switch/case,object,with,attr /attrprepend/attrappend,value/href,src ,etc,text/utext,fragment,remove`**
+>由于一个标签内可以包含多个th:x属性，其先后顺序为：
+>>`include`
+>>`replace`
+>`each`
+>>`if/unless/switch/case`
+>>`object`
+>>`with`
+>>`attr/attrprepend/attrappend`
+>>`value/href`
+>>`src`
+>>`etc`
+>>`text/utext`
+>>`fragment`
+>>`remove`
 
 #####3.11 内联
 ######3.11.1 内联文本
 >  内联文本：`[[...]]`内联文本的表示方式
 
-```
+```html
 <p th:inline="text">Hello, [[${session.user.name}]]!</p>
 ```
 >可以替代为：
 
-```
+```html
 <p>Hello, <span th:text="${session.user.name}">Sebastian</span>!</p>
 ```
 
@@ -373,7 +386,7 @@ var msg = 'This is a non-working template';
 
 ######3.11.2 内联JavaScript
 
-```
+```html
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     var ctx = /*[[${#httpServletRequest.contextPath }]]*/''; //获取上下文路径
@@ -423,7 +436,9 @@ var msg = 'This is a non-working template';
 ####4. Thymeleaf 更多配置
 
 #####4.1 模板解析器
->Thymeleaf 使用继承`ITemplateResolver`的`ServletContextTemplateResolver`从Servlet上下文获取模板作为资源，另三个解析器分别为：`ClassLoaderTemplateResolver`，`FileTemplateResolver`，`UrlTemplateResolver`。Thymeleaf的模板模式有`XML  ， VALIDXML ，  XHTML ，  VALIDXHTML ，  HTML5 ， LEGACYHTML5`，默认使用`HTML5`，详见`StandardTemplateModeHandlers`类。Thymeleaf 严格验证html页面的标签关闭行为[^JIAOHUAN]，若要配置Thymeleaf对标签的关闭行为不敏感，需在`applicationContext.xml`配置如下信息：
+>Thymeleaf 使用继承`ITemplateResolver`的`ServletContextTemplateResolver`从Servlet上下文获取模板作为资源，另三个解析器分别为：`ClassLoaderTemplateResolver`，`FileTemplateResolver`，`UrlTemplateResolver`。Thymeleaf的模板模式有`XML  ， VALIDXML ，  XHTML ，  VALIDXHTML ，  HTML5 ， LEGACYHTML5`，默认使用`HTML5`，详见`StandardTemplateModeHandlers`类。Thymeleaf 严格验证html页面的以下标签关闭行为：
+**`area, base, br, col, embed, hr, img, input, keygen, link, meta, param, source, track, wbr`**
+>若要配置Thymeleaf对标签的关闭行为不敏感，需在`applicationContext.xml`配置如下信息：
 
 ```xml
 <!-- View TemplateResolver -->
@@ -531,8 +546,6 @@ spring.thymeleaf.cache=true # set to false for hot refresh
 >>templateEngine.clearTemplateCache();
 >>templateEngine.clearTemplateCacheFor("/users/userList");
 
-
-[^JIAOHUAN]: **`area, base, br, col, embed, hr, img, input, keygen, link, meta, param, source, track, wbr`**
 
   [1]: http://www.jasypt.org/
   [2]: http://www.thymeleaf.org/

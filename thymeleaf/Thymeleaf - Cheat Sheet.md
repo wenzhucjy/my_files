@@ -10,14 +10,16 @@
 - Thymeleaf的context，即提供数据的地方，基于web的context，即WebContext相对context增加 param,session,application变量，并且自动将request atttributes添加到context variable map，可以在模板直接访问。在模板处理前，thymeleaf还会增加一个变量execInfo，比如`${execInfo.templateName},${execInfo.now}`等。
 
 > 官网地址：[http://www.thymeleaf.org][2]
+
 > Tutorials：[Using-Thymeleaf.html][3]
+
 > Github地址：[https://github.com/thymeleaf][4]
 
 
 ####2. Thymeleaf 构建
 
-#####2.1 `maven`
->demo
+#####2.1 利用`maven`构建
+
 ```xml
 <properties>
        <spring.version>4.2.1.RELEASE</spring.version>
@@ -63,8 +65,9 @@
 </dependency>
 <!-- thymeleaf end -->
 ```
-#####2.2 `Gradle`
+#####2.2 利用`Gradle`构建
 >用`Gradle`构建`spring-boot`项目，`Thymeleaf`模板，其中`build.gradle`如下：
+
 ```
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -105,8 +108,11 @@ dependencies {
 ####3. 标准表达式语法
 
 ####3.1 基本使用
+
 >- `#` 代表 获取对象 从 messages bundle 也就是消息的资源本地化文件
+
 >- `$` 表示从model里面获取
+
 >- `# $`这2个可以一起用 比如#{'system.'+${model.id}}  -----这相当于 #{system.01}的资源本地化文件中的system.01内容
 
 
@@ -133,7 +139,8 @@ dependencies {
 - `#messages`: utility methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #{…} syntax.（在变量表达式中获取外部信息的功能类方法）
 - `#ids`: utility methods for dealing with id attributes that might be repeated (for example, as a result of an iteration).
 
->***Demo***
+>***范例***
+
 ```
 //===============#lists================
  1. th:unless="${#lists.isEmpty(demoList)}"
@@ -173,6 +180,7 @@ public class Foo {
 ```
 
 #####3.4 ***a*** 标签的使用
+
 ```
 1. <a th:href="@{~/other-app/hello.html}" />  //相对路径
 2. <a href="http://www.xxx.cn" th:href="@{'http://www.xxx.cn'}" />  //绝对路径
@@ -186,6 +194,7 @@ public class Foo {
 
 #####3.5 文字替换
 >th:text="${data}",将data的值替换该属性所在标签的body，字符常量要用引号
+
 ```
 1. <span th:text="'Welcome to our application, ' + ${user.name} + '!'">
 2.  th:text="|${entity.nationName ?: ''} ${entity.provinceName ?: ''} ${entity.cityName ?: ''} ${entity.entityAddress ?: ''}|">中国 福建 厦门 思明区</p> 
@@ -202,7 +211,7 @@ public class Foo {
 >>对属性增加前缀和后缀，用th:attrappend，th:attrprepend,比如：`th:attrappend="class=${' '+cssStyle}"`
 >>对于属性是有些特定值的，比如checked属性，thymeleaf都采用bool值，比如th:checked=${user.isActive}，这里，user.isActive=false时应该checked是不会出现这个attr的
 >>固定值的布尔属性：
->>![Alt text](./image/thymeleaf_02.png)
+>>![Alt text](./image/thymeleaf_01.png)
 
 ```
 1. <img src="../../images/gtvglogo.png" 
@@ -214,6 +223,7 @@ public class Foo {
 
 ######3.6.2 **th:with**
 >`th:with`,定义变量，`th:with="isEven=${prodStat.count}%2==0"`，定义多个变量可以用逗号分隔，以下Demo实现倒计时：
+
 ```xml
 <div  th:with="status=${#httpServletRequest.getParameter('status') ?: '1'}">
              <a th:classappend="${status == '1' ? 'on' : ''}" href="?status=1">未审核</a>
@@ -229,7 +239,9 @@ public class Foo {
   </p>
 
 ```
+
 >其中`DateUtils.java`如下：
+
 ```java
 	public static Period periodBetween(Date startDate) {
 		return periodBetween(startDate, new Date());
@@ -246,7 +258,8 @@ public class Foo {
 >Thymeleaf 的迭代使用`th:each` 循环，`<tr th:each="user,userStat:${users}" th:class="${userStat.count} % 2 == 0 ? 'green':'gold'">`,userStat是状态变量，有 ***`index,count,size,current,even,odd,first,last`***等属性，如果没有显示设置状态变量，Thymeleaf会默认给个“变量名+Stat"的状态变量，也可直接修改
 
 #####3.8 判断表达式
->`th:if th:unless`
+>`th:if`  与  `th:unless`
+
 ```
 <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
     <td th:text="${prod.name}">Onions</td>
@@ -258,7 +271,9 @@ public class Foo {
     </td>
 </tr>    
 ```
+
 >`th:switch th:case`
+
 ```
 <div th:switch="${user.role}">
   <p th:case="'admin'">User is an administrator</p>
@@ -270,6 +285,7 @@ public class Foo {
 #####3.9 模板布局
 ###### 3.9.1 **th:fragment**
 >- `th:fragment`，为片段标记，指定一个模板内一部分代码为一个片段。如`/WEB-INF/templates/fragments/header.html`页面内容如下：
+
 ```
 <head th:fragment="header">
   <meta charset="UTF-8" />
@@ -280,19 +296,24 @@ public class Foo {
   <script th:src="@{/resource/js/bootstrap.min.js}"></script>
 </head>
 ```
+
 ###### 3.9.2 **th:include**与**th:replace**
 >- `th:include`和`th:replace`的区别在于前者包含片段的内容到当前标签内，后者是用整个片段（内容和上一层）替换当前标签（不仅仅是标签内容）。若页面上需要包含上述`header.html`内容，可使用` <div th:include="fragments/header :: header "></div> ` ，相当于JSP中常用的  `<%@ include file="/WEB-INF/templates/fragments/header.jsp"%>`
 >- 假如`/WEB-INF/templates/footer.html`内容为：
+
 ```
 <div id="copy-section">
   &copy; 2011 The Good Thymes Virtual Grocery
 </div>
 ```
+
 >要包含此页面`th:include`可写成
+
 ```
 <div th:include="footer :: #copy-section"></div>
 ```
->另一个典型的例子
+>另一个典型的范例
+
 ```
   <div th:include="fragments/msgbox :: msgbox2(${message})"></div> 
 <div class="msgbox" th:fragment="msgbox2(msg)">
@@ -309,11 +330,13 @@ title: "信息"
 </span>
 </div>
 ```
+
 ###### 3.9.3 **th:remove**
 >`th:remove` 为了静态显示时提供充分的数据，但是在模板被解析后，又不需要这些模拟的数据，需要将其删除
 >>可选属性： `th:remove="all|body|tag|all-but-first"`，一般用于将mock数据在真实环境中移除，all表示移除标签以及标签内容，body只移除内容，tag只移除所属标签，不移除内容，all-but-first，除第一条外其它不移除。
 
 >另外一种快捷的移除或附加代码方案：
+
 ```
 ================js附加代码：================
 /*[+
@@ -330,20 +353,26 @@ var msg = 'This is a non-working template';
 ```
 
 #####3.10 属性优先级
+
 >由于一个标签内可以包含多个th:x属性，其先后顺序为：**`include,replace,each,if/unless/switch/case,object,with,attr /attrprepend/attrappend,value/href,src ,etc,text/utext,fragment,remove`**
 
 #####3.11 内联
 ######3.11.1 内联文本
 >  内联文本：`[[...]]`内联文本的表示方式
+
 ```
 <p th:inline="text">Hello, [[${session.user.name}]]!</p>
 ```
 >可以替代为：
+
 ```
 <p>Hello, <span th:text="${session.user.name}">Sebastian</span>!</p>
 ```
->使用时，必须先用`th:inline="text/javascript/none"`激活，th:inline可以在父级标签内使用，甚至作为body的标签。内联文本尽管比th:text的代码少，但是不利于原型显示。
+
+>使用时，必须先用`th:inline="text/javascript/none"`激活，th:inline可以在父级标签内使用，甚至作为body的标签。内联文本尽管比th:text的代码少，但是不利于原型显示
+
 ######3.11.2 内联JavaScript
+
 ```
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
@@ -352,10 +381,12 @@ var msg = 'This is a non-working template';
     var code= /*[[${code}]]*/'';//js获取request域code的值 
     /*]]>*/
 </script>
-
 ```
+
 #####3.12 配合Enum使用
+
 >Thymeleaf配置Enum使用Demo如下
+
 ```
  <select name="color-selector">
                <option th:each="color : ${T(com.florentlim.blog.ColorEnum).values()}" th:value="${color}" 
@@ -363,12 +394,16 @@ var msg = 'This is a non-working template';
                 </option>
  </select>
 ```
+
 #####3.13 调用Java静态类方法
+
 >Thymeleaf直接调用Java静态类的Demo如下：
+
 ```
 <div th:unless="${T(com.github.wenzhu.DateUtils).judgeTimeInterval()}">
 ```
 >其中`DateUtils.java`的代码如下
+
 ```java
 /**
 	 * 判断当前时间是否在指定的时间范围内
@@ -384,7 +419,6 @@ var msg = 'This is a non-working template';
 		return nDateTime.isAfter(startDateTime) && nDateTime.isBefore(endDateTime);
 	}
 ```
-
 
 ####4. Thymeleaf 更多配置
 
@@ -410,6 +444,7 @@ var msg = 'This is a non-working template';
       <version>1.1.0</version>
    </dependency>
 ```
+
 >引入jar包后，我们要简单设置一下thymeleaf的引擎：
 
 ```xml
@@ -422,6 +457,7 @@ var msg = 'This is a non-working template';
   </property>
    </bean>
 ```
+
 >或者如果使用的是Java代码配置的话：
 
 ```java
@@ -436,9 +472,10 @@ public SpringTemplateEngine templateEngine() {
   }
 ```
 
-
 #####4.3 相关配置
+
 >普通的Spring项目，需在`spring-mvc.xml`配置：
+
 ```xml
 	<!-- Thymeleaf -->
 	<bean id="webTemplateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
@@ -468,7 +505,9 @@ public SpringTemplateEngine templateEngine() {
 	</bean>
 	<!-- Thymeleaf end -->
 ```
+
 >`Spring boot`项目`application.properties`关于`Thymeleaf`的配置如下：
+
 ```
 # THYMELEAF (ThymeleafAutoConfiguration)
 spring.thymeleaf.check-template-location=true
@@ -482,8 +521,8 @@ spring.thymeleaf.content-type=text/html # ;charset=<encoding> is added
 spring.thymeleaf.cache=true # set to false for hot refresh
 ```
 
-
 ####5. Thymeleaf 缓存
+
 >- a、指定特定的缓存：
 >>templateResolver.setCacheable(false);//默认是true，若需要实时查看页面变动信息，需设置为false
 >>templateResolver.getCacheablePatternSpec().addPattern("/users/*");

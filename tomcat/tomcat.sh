@@ -27,18 +27,19 @@
 # chkconfig --level 2345 tomcat on
 # service tomcat {start | stop | restart | status}
 #
-# Author: jy.chen
-# Date: 2015/10/17
+# Author: wenzhucjy@gmail.com
+# Date: 2015/10/16
 #####################################################
 
 ECHO=/bin/echo
 TEST=/usr/bin/test
 TOMCAT_USER=vagrant
-TOMCAT_HOME=/home/vagrant/tools/apache-tomcat/apache-tomcat-8.0.27
+
+TOMCAT_HOME=/home/vagrant/tools/apache-tomcat/portal_tomcat
+CATALINA_PID=$TOMCAT_HOME/catalina.pid
 TOMCAT_START_SCRIPT=$TOMCAT_HOME/bin/startup.sh
 TOMCAT_STOP_SCRIPT=$TOMCAT_HOME/bin/shutdown.sh
-CATALINA_PID=$TOMCAT_HOME/bin/catalina.pid
- 
+
 $TEST -x $TOMCAT_START_SCRIPT || exit 0
 $TEST -x $TOMCAT_STOP_SCRIPT || exit 0
 
@@ -47,10 +48,17 @@ $TEST -x $TOMCAT_STOP_SCRIPT || exit 0
 #   exit 1
 #fi
 
+if [ `id -u` -ne 0 ]; then
+   $ECHO "##### Error: You need root or sudo privileges to run this script."
+   exit 1
+fi
+
 if [ -z "$TOMCAT_HOME" ]; then
    $ECHO "##### Error: TOMCAT_HOME is not set."
    exit 1
 fi
+
+CATALINA_PID=$TOMCAT_HOME/bin/catalina.pid
 
 # Friendly Logo
 logo()
@@ -85,7 +93,6 @@ usage()
 # Running status
 is_Running ()
 {
-   #wget -O - http://localhost:8080/portal >& /dev/null
 	PID=$(ps -ef | grep java | grep -v grep | awk '{print $2}')
  if [ "$PID" ]; then
   return 0
@@ -94,22 +101,35 @@ is_Running ()
  fi
 }
 
-# Start 
+# Start
 start() {
-    $ECHO "##### Tomcat is  starting ..."
-	su - $TOMCAT_USER -c "$TOMCAT_START_SCRIPT &"
-	sleep 3
-	$ECHO
-	$ECHO "##### Tomcat is already started."
+    $ECHO -n "##### Tomcat is  starting ..."
+    #su - $TOMCAT_USER -c "$TOMCAT_START_SCRIPT &"
+
+    #Another way use start-stop-daemon to run this script,y must install start-stop=daemon first,
+    #1. $ sudo  wget http://developer.axis.com/download/distribution/apps-sys-utils-start-stop-daemon-IR1_9_18-2.tar.gz 
+    #2. $ tar zxf apps**.gz
+    #3. $ cd apps/sys-utils/start-stop-daemon-IR1_9_18-2
+    #4. $ sudo yun install gcc -y
+    #5. $ gcc start-stop-daemon.c -o start-stop-daemon
+    #6. $ cp start-stop-daemon /usr/local/bin/start-stop-daemon
+   
+    /usr/local/bin/start-stop-daemon --start -u "$TOMCAT_USER" \
+        -c "$TOMCAT_USER" -x "$TOMCAT_START_SCRIPT" && $ECHO "##### Tomcat starts successfully."
+
+	#$ECHO "##### Tomcat is already started."
 }
 # Stop
 stop() {
 	 $ECHO "##### Tomcat is shutdowning ..."
-	 su - $TOMCAT_USER -c "$TOMCAT_STOP_SCRIPT 60 -force &"
-	 while [ "$(ps -fu $TOMCAT_USER | grep java | grep tomcat | wc -l)" -gt "0" ]; do
-        sleep 5; $ECHO -n "."
-     done
-	 $ECHO "##### Tomcat is already stopped."
+	 #su - $TOMCAT_USER -c "$TOMCAT_STOP_SCRIPT 60 -force &"
+	 #while [ "$(ps -fu $TOMCAT_USER | grep java | grep tomcat | wc -l)" -gt "0" ]; do
+     #   sleep 1; $ECHO -n "."
+     #done
+	 #$ECHO
+	 #$ECHO -n "##### Tomcat is already stopped."
+     /usr/local/bin/start-stop-daemon --stop -u "$TOMCAT_USER" \ 
+         -c "$TOMCAT_USER" -x "$TOMCAT_STOP_SCRIPT" && $ECHO "##### Tomcat stops successfully."
 }
 
 # define 

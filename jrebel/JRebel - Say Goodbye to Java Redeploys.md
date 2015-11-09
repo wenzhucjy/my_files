@@ -267,9 +267,8 @@ echo ""
 
 > `zeroturnaround`公司的另一个产品[xrebel][35]的扩展，`-javaagent:D:/Java/xrebel-2.0.1-crack/xrebel/xrebel.jar`
 
->> 破解的`JRebel_crack`[下载][31]，密码：`3yw3`
 
-> 最后致谢`zeroturnaround`公司，[http://zeroturnaround.com/blog/][36]
+>> 最后致谢`zeroturnaround`公司[http://zeroturnaround.com/software/jrebel][36]，官网有免费激活服务，到官网注册领取，请支持正版！
 
 [0]:  ./images/jrebel_0.jpg "jrebel_0.jpg"
 [1]:  ./images/jrebel_1.jpg "jrebel_1.jpg"
@@ -297,9 +296,8 @@ echo ""
 [23]:  ./images/jrebel_23.jpg "jrebel_23.jpg"
 [24]:  ./images/jrebel_24.jpg "jrebel_24.jpg"
 [25]:  ./images/jrebel_25.jpg "jrebel_25.jpg"
-[31]: http://pan.baidu.com/s/1jG93pe2
 [32]: http://zeroturnaround.com
 [33]: http://manuals.zeroturnaround.com/jrebel/standalone/config.html
 [34]: https://zeroturnaround.com/software/jrebel/learn/remoting/setting-up-jrebel-remoting-with-intellij-idea-and-tomcat/
 [35]: http://zeroturnaround.com/software/xrebel/
-[36]: http://zeroturnaround.com/blog/
+[36]: http://zeroturnaround.com/software/jrebel

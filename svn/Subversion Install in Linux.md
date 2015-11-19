@@ -1,6 +1,7 @@
 ###Subversion Install in Centos6
 
 >官网地址:https://svn.apache.org/repos/asf/subversion/trunk/INSTALL
+
 ####1.Lets check which version we have now
 
 >- svn --version
@@ -96,7 +97,29 @@ The following repository access (RA) modules are available:
 
 >需注意：要让`svn`加载`neon`插件，先`sudo rm /usr/local/svn`，而后重新`Configure` subversion，如下指令：
 >>./configure --without-berkeley-db --without-apxs --without-swig --without-serf --with-ssl --with-neon
->>重新`make && sudo make install`即可，若返回成功则`svn`就已经成功加载`ra_neno`插件
+>>重新`make && sudo make install`即可，若返回成功则`svn`就已经成功加载`ra_neno`插件，检测`ra_neon`插件是否加载成功：
+
+```
+svn, version 1.7.5 (r1336830)
+   compiled Nov 19 2015, 19:28:46
+
+Copyright (C) 2012 The Apache Software Foundation.
+This software consists of contributions made by many people; see the NOTICE
+file for more information.
+Subversion is open source software, see http://subversion.apache.org/
+
+The following repository access (RA) modules are available:
+
+* ra_neon : Module for accessing a repository via WebDAV protocol using Neon.
+  - handles 'http' scheme
+  - handles 'https' scheme
+* ra_svn : Module for accessing a repository using the svn network protocol.
+  - handles 'svn' scheme
+* ra_local : Module for accessing a repository on local disk.
+  - handles 'file' scheme
+
+```
+
 
 
 

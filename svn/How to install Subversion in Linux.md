@@ -1,4 +1,4 @@
-###Subversion Install in Centos6
+###How to install Subversion in Linux
 
 >官网地址:https://svn.apache.org/repos/asf/subversion/trunk/INSTALL
 
@@ -128,6 +128,6 @@ The following repository access (RA) modules are available:
 >>svn upgrade
 
 >导出svn项目
->svn export https://xxxx/svn/svn_path svn_temp --user name xxx --password xxx --force
+>>svn export https://xxxx/svn/svn_path svn_temp --user name xxx --password xxx --force
 
 

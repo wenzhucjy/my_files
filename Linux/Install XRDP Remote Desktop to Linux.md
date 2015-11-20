@@ -125,14 +125,16 @@ SyslogLevel=DEBUG              系统日志记录等级
 
 ```
 # echo '/etc/xrdp/xrdp.sh start' >> /etc/rc.local
-或者
+
+#或者执行如下也可
+
 # echo '/etc/xrdp/xrdp.sh start' >> /etc/rc.d/init.d/
 ```
 
 >启动好xrdp，就可以通过客户端的`rdp client` 连接到服务器上，win下可以用`mstsc`，linux下可以用`rdesktop`或者`krdp`
  >>module 选择为：`sesman-Xvnc`
 
-####6.配置`iptables`
+####7.配置`iptables`
 
 ```
 # iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 3389 -j ACCEPT

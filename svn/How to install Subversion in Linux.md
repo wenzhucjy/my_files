@@ -1,6 +1,7 @@
 ###How to install Subversion in Linux
 
->官网地址:https://svn.apache.org/repos/asf/subversion/trunk/INSTALL
+>- 官网安装介绍:https://svn.apache.org/repos/asf/subversion/trunk/INSTALL
+>- RPM镜像源：http://opensource.wandisco.com/
 
 ####1.Lets check which version we have now
 
@@ -93,7 +94,21 @@ The following repository access (RA) modules are available:
 >>make  
 >>make install  
 
->执行成功后，重新`configure --with-ssl=openssl`neon插件，然后`make && sudo make install`
+>执行成功后，重新`configure --with-ssl=openssl`neon插件，日志结果如下：
+
+```
+configure: Configured to build neon 0.29.6:
+
+  Install prefix:  /usr/local
+  Compiler:        gcc
+  XML Parser:      expat
+  SSL library:     SSL support enabled, using OpenSSL (0.9.7 or later)
+  zlib support:    zlib support enabled, using -lz
+  Build libraries: Shared=no, Static=yes
+
+```
+
+>代表`ra_neon`插件源代码编译安装前配置成功，而后执行编译`make `和安装指令` sudo make install`
 
 >需注意：要让`svn`加载`neon`插件，先`sudo rm /usr/local/svn`，而后重新`Configure` subversion，如下指令：
 >>./configure --without-berkeley-db --without-apxs --without-swig --without-serf --with-ssl --with-neon
@@ -123,11 +138,11 @@ The following repository access (RA) modules are available:
 
 
 
-####7. Go to all of your local working directories and do a svn upgrade:
->更新svn项目
+####7. Go to all of your local working directories and do a svn upgrade and export
+>Update project
 >>svn upgrade
 
->导出svn项目
+>Export project
 >>svn export https://xxxx/svn/svn_path svn_temp --user name xxx --password xxx --force
 
 

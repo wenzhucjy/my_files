@@ -81,7 +81,7 @@ $ sudo ./gitflow-installer.sh
 > 一个能并列高亮显示文件比较结果的小工具`icdiff`，可以与`git`配合使用
 
 #####4.8. [**htop**][10]
->  `htop` 是一款运行于 Linux 系统监控与进程管理软件，用于取代 Unix 下传统的 top。与 top 只提供最消耗资源的进程列表不同，`htop` 提供所有进程的列表，并且使用彩色标识出处理器、swap 和内存状态
+>  `htop` 是一款运行于 Linux 系统监控与进程管理软件，用于取代 Unix 下传统的 `top`。与 `top` 只提供最消耗资源的进程列表不同，`htop` 提供所有进程的列表，并且使用彩色标识出处理器、swap 和内存状态
 
 >  - 32-BIT
 ```bash
@@ -93,6 +93,28 @@ rpm -Uhv rpmforge-release*.rf.i386.rpm
 wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
 rpm -Uhv rpmforge-release*.rf.x86_64.rpm
 ```
+
+>Install htop on CentOS with yum
+
+>> $  sudo yum install htop #Install htop
+
+>Compile htop from the Source on CentOS
+
+```
+$ sudo yum groupinstall "Development Tools"
+$ sudo yum install ncurses-devel
+$ wget http://hisham.hm/htop/releases/1.0.3/htop-1.0.3.tar.gz
+$ tar xvfvz htop-1.0.3.tar.gz
+$ cd htop-1.0.3
+$ ./configure
+$ ./configure --prefix=/usr
+$ make && sudo make install
+```
+
+>$ htop
+
+![z](./images/oh-my-zsh-03.png)
+
 >`htop` 命令优点
 
 >>快速查看关键性能统计数据，如 CPU（多核布局）、内存/交换使用
@@ -112,8 +134,9 @@ rpm -Uhv rpmforge-release*.rf.x86_64.rpm
 >> 不想搜索的文件可以把对应的 pattern 写到.agignore中
 >> 命令比ack短 33%，且一只手可以按全
 ```bash
-sudo rpm -Uvh http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-sudo yum install the_silver_searcher
+$ sudo rpm -Uvh http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+
+$ sudo yum install the_silver_searcher
 ```
 
 #####4.11. [**ConEmu**][13]

@@ -42,8 +42,11 @@
 >在Java的VM arguments 输入如下参数：
 ```java
 -noverify
--agentpath:D:/Java/jrebel-6.1.1-agent-crack/libjrebel64.dll
-#Linux：-agentpath:/dev_env/jrebel/jrebel_running/lib/libjrebel64.so
+-javaagent:D:/Java/jrebel/lib/jrebel.jar
+-agentpath:D:/Java/jrebel/lib/jrebel64.dll
+#Linux：
+-javaagent:/dev_env/jrebel/jrebel_running/lib/jrebel.jar
+-agentpath:/dev_env/jrebel/jrebel_running/lib/libjrebel64.so
 #Mac OS：-agentpath:/dev_env/jrebel/jrebel_running/lib/libjrebel64.dylib
 -Drebel.dirs=f:/myproject/test-jrebel/webapp/WEB-INF/classes
 -Drebel.disable_update=true

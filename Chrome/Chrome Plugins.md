@@ -31,6 +31,12 @@
 
 >树形展示Github项目目录文件。安装之后，浏览托管在Github上的项目，可看到左侧的树形结构，像IDE那样方便地浏览代码，再也不用每次点一下刷新一下、然后倒退倒退点另一个。
 
+
+###[OneTab](https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall?hl=zh-CN)
+
+>推荐，`Chrome`会一次性打开好多`tab`标签，此时`OneTab`会直接把所有`tab`回收，然后保存每天浏览记录，还原之前保存的`tab`标签。
+
+
 ###[Ghostery](https://chrome.google.com/webstore/detail/ghostery/mlomiejdfkolichcflejclcbmpeaniij?hl=en)
 
 >通过它可以禁用JavaScript 跟踪代码，还能查看被阻止的跟踪器。装上它，你会惊讶于互联网上潜伏着多少“间谍”。这也让我们明白了为什么很多广告都能精准定位我们的需求，给我们弹窗或者定制服务，而我们还傻傻的觉得好神奇。我们可以通过这个插件来禁止不想要的跟踪器，以防隐私泄露。
@@ -79,36 +85,29 @@
 
 >Stylish 是一个调整网页外观的用户样式管理器。它可让您轻松地为许多热门网站网站安装主题和皮肤。
 
-###[Chrono下载管理器](https://chrome.google.com/webstore/detail/chrono-download-manager/mciiogijehkdemklbdcbfkefimifhecn?utm_source=chrome-app-launcher-info-dialog)
+###[Chrome下载管理器](https://chrome.google.com/webstore/detail/chrono-download-manager/mciiogijehkdemklbdcbfkefimifhecn?utm_source=chrome-app-launcher-info-dialog)
 
 >做Chrome浏览器中最好的下载管理器。
 
 ###[Momentum](https://chrome.google.com/webstore/detail/momentum/laookkfknpbbblfpciffpaejjkokdgca/reviews?hl=zh-CN)
 
->教你如何优雅的使用Chrome，新打开一个Tab的时候再也不是一片空白，每天一副精美图片。
-
-
-###[OneTab](https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall?hl=zh-CN)
-
->强烈推荐，使用场景是这样的，我们使用Chrome经常会一次打开好多tab，很多是会用到的，又不舍得关，内存又耗着，这个时候点击下OneTab，直接把所有tab回收，然后每天的历史都给你记录着，接着你可以一键还原某一天的tab，真乃为Chrome而生。
-
+>`Chrome`新打开一个`Tab`标签是一副精美图片。
 
 ###[Page Ruler](https://chrome.google.com/webstore/detail/page-ruler/jlpkojjdgbllmedoapgfodplfhcbnbpn?hl=zh-CN)
 
->这个工具设计师必备，可以直接查看网页一些图片的详细像素大小、具体位置等，非常实用。
+>这个工具设计师必备，可以直接查看网页一些图片的详细像素大小、具体位置等。
 
 
 ###[Alexa Traffic Rank](https://chrome.google.com/webstore/detail/alexa-traffic-rank/cknebhggccemgcnbidipinkifmmegdel?hl=zh-CN)
 
->Alexa排名是指网站的世界排名，非常有权威。直接主流网站或博客绝对是有Alexa排名的，我们在浏览博客或者网站的时候就可以通过Alexa排名知晓该网站的流行程度，适用于经常看博客的人，装了这个插件一键查看网站排名。
-
+>Alexa排名是指网站的世界排名，可以通过Alexa排名知晓该网站的流行程度，`Alexa Traffic Rank`一键查看网站排名。
 
 
 ###[Avatars for Github](https://chrome.google.com/webstore/detail/avatars-for-github/pgjmdbklnfklcjfbonjfkdhaonlfogbb?hl=zh-CN)
 
->默认我们在GitHub主页动态只能看到id的，而安装了这个插件就可以看到GitHub头像了，让你一眼就能知道是谁。
+>默认在`GitHub`主页动态只能看到`id`的，`Avatars for Github`可以看到`GitHub`的头像。
 
 
 ###[Isometric Contributions](https://chrome.google.com/webstore/detail/isometric-contributions/mjoedlfflcchnleknnceiplgaeoegien/related?hl=zh-CN)
 
->一个小玩意，可以让你在GitHub上的commit像盖楼一样的展示。
+>`Isometric Contributions`在`GitHub`上的`commit`记录立体展示效果。

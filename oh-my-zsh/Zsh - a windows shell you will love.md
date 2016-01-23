@@ -160,6 +160,68 @@ $ sudo yum install the_silver_searcher
 - 帮助信息(Alt-H)
 
 
+#####4.12. [**Cmder**][15]
+> `Cmder`作为一个压缩档的存在, 可即压即用，甚至可以放到USB就可以虽时带着走，连调整过的设定都会放在这个目录下，不会用到系统机码(Registry)，也很适合放在Dropbox / Google Drive / OneDrive共享于多台电脑。
+> 下载的时候，有两个版本，分别是mini与full版；唯一的差别在于有没有内建msysgit工具，这是Git for Windows的标准配备；全安装版 cmder 自带了 msysgit, 压缩包 23M, 除了 git 本身这个命令之外, 里面可以使用大量的 linux 命令；比如 grep, curl(没有 wget)； 像vim, grep, tar, unzip, ssh, ls, bash, perl 对于爱折腾的Coder更是痛点需求。
+> 借用Win下的神器`AutoHotKey`配置`Alt+r`快捷键启动`Cmder`如下
+
+```
+!r:: run, D:\soft\cmder\Cmder.exe
+```
+
+>设置`Babun`为默认的开启选项
+>> 1. `Win + Alt + P`打开配置页面
+>> 2. 找到`Startup`的`Tasks`，新增`tasks`，命名为`babun`，在`Task parameters`输入`/icon "D:\babun\.babun\cygwin\bin\mintty.exe" /dir "D:\babun"`，在`Start console`一栏下输入`D:\babun\.babun\cygwin\bin\mintty.exe -`保存即可。
+
+>解决文字重叠问题
+>> 1. `Win + Alt + P`打开配置页面
+>> 2. 找到`Main`的`font`，去掉`monospace`即可
+
+
+>修改默认的命令符提示符`λ`
+>> 编辑Cmder安装目录下的vendor\init.bat批处理文件(min版本15行)，把：
+
+```
+@prompt $E[1;32;40m$P$S{git}{hg}$S$_$E[1;30;40m {lamb} $S$E[0m
+```
+
+修改成以下即可：
+
+```
+@prompt $E[1;32;40m$P$S{git}{hg}$S$_$E[1;30;40m $$ $S$E[0m
+```
+
+>快捷键
+- 自动补全 (Tab).
+- 新页签 (Ctrl-T).
+- 关闭页签 (Ctrl-W).
+- 切换页签 (Ctrl-Tab).
+- 快速切换到第n个页签 (Ctrl-n).
+- 全屏状态 (Alt-Enter).
+- 历史命令搜索 (Ctrl-r).
+- 自动 “cd ..” (Ctrl-Alt-U).
+- 环境变量扩展(Ctrl-Alt-E).
+- 帮助信息(Alt-H)
+
+>`Cmder`元件组成
+>>`Cmder`其实结合了多套软体，其中包括 `msysgit` 与最重要的 `ConEmu` 与 `Clink` 软体，而`ConEmu`与`Clink`这两套软体就是`Cmder`真正的核心元件。
+>>`msysgit` 除了提供Git for Windows 相关工具外，其实还提供了多套Unix/Linux 环境下常用的指令列工具，例如less, ls, tar, unzip, md5sum, grep, sed, … 等多套工具。 
+>>一个grep 就不知道比Windows 内建的findstr 强
+
+
+>自定义`aliases`
+>>打开Cmder目录下的config文件夹，里面的`aliases`文件就是我们可以配置的别名文件，如下：
+
+```
+e.=explorer .
+gcc=cd D:\Document\gcc\
+gw=cd D:\Document\GitHub\work
+gl=git log --oneline --all --graph --decorate  $*
+ls=ls --show-control-chars --color=auto $*
+pwd=cd
+clear=cls
+```
+
 
   [1]: http://babun.github.io/
   [2]: https://github.com/robbyrussell/oh-my-zsh/wiki/themes
@@ -175,3 +237,4 @@ $ sudo yum install the_silver_searcher
   [12]: https://github.com/ggreer/the_silver_searcher
  [13]: https://conemu.github.io/
  [14]: http://mridgers.github.io/clink/
+ [15]: http://cmder.net/

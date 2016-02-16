@@ -20,6 +20,7 @@
 export CATALINA_OPTS="$CATALINA_OPTS -Xms64m"
 export CATALINA_OPTS="$CATALINA_OPTS -Xmx800m"
 
+
 # Increase maximum perm size for web base applications to 4x the default amount
 # http://wiki.apache.org/tomcat/FAQ/Memoryhttp://wiki.apache.org/tomcat/FAQ/Memory
 # Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize, support was removed in 8.0
@@ -66,7 +67,8 @@ export CATALINA_OPTS="$CATALINA_OPTS -XX:+DisableExplicitGC"
 # http://blog.trifork.com/2014/07/14/how-to-remotely-debug-application-running-on-tomcat-from-within-intellij-idea/
 export CATALINA_OPTS="$CATALINA_OPTS -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
 
-export JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
+# To run tomcat with server mode and define file encoding
+export JAVA_OPTS="$JAVA_OPTS -server -Dfile.encoding=UTF-8"
 
 #It's also a good idea to configure Tomcat memory utilization,http://wiki.openkm.com/index.php/Configure_Tomcat_service_linux
 

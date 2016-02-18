@@ -8,8 +8,7 @@
 # su - <username>
 ```
 
-
->2. 在`.zshrc`或`.bashrc`指定`NEXUS_HOME`
+>2.在`.zshrc`或`.bashrc`指定`NEXUS_HOME`
 
 ```
 export NEXUS_HOME=/usr/local/nexus

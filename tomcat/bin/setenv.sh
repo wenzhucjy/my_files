@@ -17,20 +17,23 @@
 
 # discourage address map swapping by setting Xms and Xmx to the same value
 # http://confluence.atlassian.com/display/DOC/Garbage+Collector+Performance+Issues
+# 虚拟机初始化时的最小内存
 export CATALINA_OPTS="$CATALINA_OPTS -Xms64m"
+# 虚拟机可使用的最大内存（建议到物理内存的80%）
 export CATALINA_OPTS="$CATALINA_OPTS -Xmx800m"
 
 
 # Increase maximum perm size for web base applications to 4x the default amount
 # http://wiki.apache.org/tomcat/FAQ/Memoryhttp://wiki.apache.org/tomcat/FAQ/Memory
-# Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize, support was removed in 8.0
+# Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize, support was removed in 8.0 - See also : http://openjdk.java.net/jeps/122
+# 持久代初始值 -XX:PermSize  持久代最大内存（默认是32M） -XX:MaxPermSize
 # export CATALINA_OPTS="$CATALINA_OPTS -XX:MaxPermSize=1024m"
 
 # Reset the default stack size for threads to a lower value (by 1/10th original)
-# By default this can be anywhere between 512k -> 1024k depending on x32 or x64
-# bit Java version.
-# http://www.springsource.com/files/uploads/tomcat/tomcatx-large-scale-deployments.pdf
+# By default this can be anywhere between 512k -> 1024k depending on x32 or x64 bit Java version.
 # http://www.oracle.com/technetwork/java/hotspotfaq-138619.html
+# http://www.tomcatexpert.com/sites/default/files/tomcatx-large-scale-deployments.pdf
+# 设置每个线程的堆栈大小
 export CATALINA_OPTS="$CATALINA_OPTS -Xss512k"
 
 # Oracle Java as default, uses the serial garbage collector on the

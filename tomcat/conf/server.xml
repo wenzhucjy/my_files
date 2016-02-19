@@ -19,7 +19,7 @@
      define subcomponents such as "Valves" at this level.
      Documentation at /docs/config/server.html
  -->
-<Server port="8005" shutdown="SHUTDOWN">
+<Server port="8055" shutdown="SHUTDOWN">
   <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
   <!-- Security listener. Documentation at /docs/config/listeners.html
   <Listener className="org.apache.catalina.security.SecurityListener" />
@@ -66,13 +66,25 @@
          APR (HTTP/AJP) Connector: /docs/apr.html
          Define a non-SSL/TLS HTTP/1.1 Connector on port 8080
     -->
-
-
-    <Connector port="12131" protocol="HTTP/1.1" server="Anyfish Web Server"
-               connectionTimeout="20000" URIEncoding="UTF-8" useBodyEncodingForURI="true"
-               redirectPort="8444" />
-
-
+    <!-- backup
+    <Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+    -->
+    <!-- 启用APR协议，推荐的配置 -->
+    <Connector port="8080" protocol="org.apache.coyote.http11.Http11AprProtocol"
+            URIEncoding="UTF-8"
+            maxConnections="10000"
+            maxThreads="2000"
+            acceptCount="2000"
+            minSpareThreads="100"
+            compression="on"
+            compressionMinSize="2048"
+            compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain"
+            enableLookups="false"
+            disableUploadTimeout="true"
+            connectionTimeout="20000"
+            redirectPort="8443" />
     <!-- A "Connector" using the shared thread pool-->
     <!--
     <Connector executor="tomcatThreadPool"
@@ -125,10 +137,11 @@
       </Realm>
 
       <Host name="localhost"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true" undeployOldVersions="true">
-<Context docBase="D:\web\product"  reloadable="true" path="/web/productimage"/>
-<Context docBase="D:\web\rsc\u"  reloadable="true" path="/staticimage"/>
-<Context docBase="d:\web\rsc" path="/web/rsc" reloadable="true" />
+            unpackWARs="true" autoDeploy="true">
+        <!-- 配置映射路径，即访问项目的/web/productimage直接映射到 D:\web\product ，以此类推-->
+        <Context docBase="D:\web\product"  reloadable="true" path="/web/productimage"/>
+        <Context docBase="D:\web\rsc\u"  reloadable="true" path="/staticimage"/>
+        <Context docBase="d:\web\rsc"   reloadable="true"path="/web/rsc" />
 
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->
@@ -141,7 +154,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
                prefix="localhost_access_log" suffix=".txt"
-               pattern="[%{X-Forwarded-For}i %l %u %t] &quot;%r&quot; %s %b" />
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 
       </Host>
     </Engine>

@@ -9,7 +9,8 @@ RSA公私钥对生成与使用
 	3.  生成RSA公钥
 	输入“rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem”命令回车后，在当前 bin 文件目录中会新增一个 rsa_public_key.pem 文件，其文件为原始的商户公钥
 	4.  生成PKCS8 编码的私钥
-	输入命令“pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt”
+	输入命令“pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt” 或 “pkcs8 -topk8 -in rsa_private_key.pem -out pkcs8_rsa_private_key.pem -nocrypt”
+
 
 	RSA 密钥使用逻辑：
 	商户在使用 RSA 签名方式的接口时，真正会用到的密钥是商户私钥与第三方接口公钥。商户上传公钥给第三方接口，第三方接口把公钥给商户，是公钥互换的操作。这就

@@ -1,4 +1,4 @@
-### Babun(Oh-my-zsh) - 终极Shell
+### Win 下必备神器Oh-my-zsh
 
 
 ####1. 优势
@@ -133,9 +133,9 @@ $ make && sudo make install
 >> 搜索会忽略.gitignore和.hgignore中的 pattern
 >> 不想搜索的文件可以把对应的 pattern 写到.agignore中
 >> 命令比ack短 33%，且一只手可以按全
+
 ```bash
 $ sudo rpm -Uvh http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-
 $ sudo yum install the_silver_searcher
 ```
 
@@ -161,6 +161,7 @@ $ sudo yum install the_silver_searcher
 
 
 #####4.12. [**Cmder**][15]
+
 > `Cmder`作为一个压缩档的存在, 可即压即用，甚至可以放到USB就可以虽时带着走，连调整过的设定都会放在这个目录下，不会用到系统机码(Registry)，也很适合放在Dropbox / Google Drive / OneDrive共享于多台电脑。
 > 下载的时候，有两个版本，分别是mini与full版；唯一的差别在于有没有内建msysgit工具，这是Git for Windows的标准配备；全安装版 cmder 自带了 msysgit, 压缩包 23M, 除了 git 本身这个命令之外, 里面可以使用大量的 linux 命令；比如 grep, curl(没有 wget)； 像vim, grep, tar, unzip, ssh, ls, bash, perl 对于爱折腾的Coder更是痛点需求。
 > 借用Win下的神器`AutoHotKey`配置`Alt+r`快捷键启动`Cmder`如下
@@ -222,6 +223,41 @@ pwd=cd
 clear=cls
 ```
 
+#####4.13. [**Chocolatey**][16]软件包管理系统
+
+>在 Linux 下，大家喜欢用 apt-get(mac下用brew) 来安装应用程序，如今在 windows 下，大家可以使用  `Chocolatey`来快速下载搭建一个开发环境。 `Chocolatey`的哲学就是完全用命令行来安装应用程序， 它更像一个包管理工具（背后使用 Nuget ）。
+>另外需要说明的是， Chocolatey 只是把官方下载路径封装到了 Chocolatey 中，所以下载源都是其官方路径，所以下载的一定是合法的，但是如果原软件是需要 Licence 注册的话，那么 Chocolatey 下载安装好的软件还是需要你去购买注册。不过 Chocolatey 一般还是会选用免费 Licence 可用的软件。
+>安装chocolatey , 运行如下命令即可：
+
+```
+powershell -NoProfile -ExecutionPolicy unrestricted -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+```
+
+![z](./images/atom_01.png)
+
+>出现如下提示表示`Chocolatey`安装成功：
+
+![z](./images/atom_02.png)
+
+>安装软件命令 `choco install softwareName,` 短写是 `cinst softwareName`
+>可安装的应用程序，可以参见其 Package列表，以下是window下开发常用的开发环境应用:
+
+```
+
+choco install autohotkey.portable    #安装 AutoHotkey (Portable)
+choco install nodejs.install  #安装 node
+choco install git.install     #安装 git
+choco install ruby            #安装 ruby
+choco install python          #安装 python
+choco install jdk8            #安装 JDK8
+choco install googlechrome    #安装 Chrome
+choco install google-chrome-x64 #Google Chrome (64-bit only) 
+choco install firefox         #安装 firefox
+choco install notepadplusplus.install #安装 notepad++
+choco install Atom                    #安装 Atom
+choco install SublimeText3            #安装 SublimeText3
+```
+
 
   [1]: http://babun.github.io/
   [2]: https://github.com/robbyrussell/oh-my-zsh/wiki/themes
@@ -235,6 +271,7 @@ clear=cls
   [10]: http://hisham.hm/htop/
   [11]: https://github.com/jingweno/ccat
   [12]: https://github.com/ggreer/the_silver_searcher
- [13]: https://conemu.github.io/
- [14]: http://mridgers.github.io/clink/
- [15]: http://cmder.net/
+  [13]: https://conemu.github.io/
+  [14]: http://mridgers.github.io/clink/
+  [15]: http://cmder.net/
+  [16]: https://chocolatey.org/

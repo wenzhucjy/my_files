@@ -74,6 +74,14 @@ tmux: error while loading shared libraries: libevent-2.0.so.5: cannot open share
 
 #### 3.基本操作
 
+```
+tmux    #创建Tmux会话
+tmux new -s session-1-name #创建Tmux会话并制定session-1-name名称
+tmux -ls  #列出当前detach的Tmux会话
+tmux a(attach) -t 0  #激活session名称为0的Tmux会话
+tmux kill-session -t 0 #关闭session名称为0的Tmux会话
+```
+
 所有快捷键的执行方式:
 
 按下` Ctrl + b `两个按键组合, 然后松开 `Ctrl + b `, 然后再按快捷键触发各种行为
@@ -89,16 +97,16 @@ tmux: error while loading shared libraries: libevent-2.0.so.5: cannot open share
 
 |快捷键|介绍|
 |:---------|:---------|
-|C-z |关闭tmux.|
-|:   |进入tmux命令行模式.|
-|?   |列出所有快捷键.|
-|t   |显示时间.|
-|d   |退出当前tmux客户端，tmux后台运行.|
-|$   |重命名当前session.|
-|s   |切换session 显示所有session并切换到某一个session.|
-|(   |切换session 切换到上一个session.|
-|)   |切换session 切换到下一个session.|
-|L   |切换session 到前一个活跃的session.|
+|C-z |关闭tmux|
+|:   |进入tmux命令行模式|
+|?   |列出所有快捷键|
+|t   |显示时间|
+|d   |退出当前tmux客户端，tmux后台运行|
+|$   |重命名当前session|
+|s   |切换session 显示所有session并切换到某一个session|
+|(   |切换session 切换到上一个session|
+|)   |切换session 切换到下一个session|
+|L   |切换session 到前一个活跃的session|
 
 ##### 4.2 Window操作
 
@@ -123,7 +131,7 @@ tmux: error while loading shared libraries: libevent-2.0.so.5: cannot open share
 |C-b "       |纵向分Terminal|
 |C-b 方向键  |则会在自由选择各面板|
 |C-b x       |关闭当前pane|
-|C-b q       |显示面板编号|
+|C-b q       |显示面板编号，在数字未消失之前按下对应的数字可进入对应的Pane|
 |C-b z	     |最大化或者恢复当前pane，`只针对tmux >= 1.8的版本`|
 |C-b {	     |跟前一个pane交换位置|
 |C-b }	     |跟后一个pane交换位置|
@@ -131,7 +139,7 @@ tmux: error while loading shared libraries: libevent-2.0.so.5: cannot open share
 |C-b ;	     |切换Pane 进入到前一个操作过的pane|
 
 
-#### 5. `.tmux.conf`的配置样例
+#### 5. `.tmux.conf`的配置
 ```
 set -g base-index 1
 set -g status-utf8 on
@@ -148,7 +156,7 @@ set -g status-right '#[fg=Cyan]#S #[fg=white]%a %H:%M:%S %d-%b-%y'
 #set -g status-right '%H:%M:%S %d-%b-%y'
 ...
 ```
-具体样例请参考 [.tmux.conf样例](https://github.com/wenzhucjy/my_files/Tmux/.tmux.conf)
+具体样例请参考 [.tmux.conf样例](https://github.com/wenzhucjy/my_files/blob/master/Tmux%2F.tmux.conf)
 
 [参考]
 

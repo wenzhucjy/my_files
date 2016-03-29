@@ -1,0 +1,20 @@
+vbell off
+caption always "%{= kc}%H (system load: %l)%-21=%{= .m}%D %d.%m.%Y %0c"
+defscrollback 1024
+startup_message off
+
+hardstatus             alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]'
+#hardstatus string "%{.bW}%-w%{.rY}%n %t%{-}%+w %=%{..G} %c:%s "
+
+bind ' ' title
+bindkey -k k; title
+bindkey -k F1 prev
+bindkey -k F2 next
+#defencoding GBK
+#encoding GBK UTF-8
+
+bindkey "^[j" prev
+bindkey "^[k" next
+# 用`映射 Ctrl + a
+escape ``

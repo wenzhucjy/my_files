@@ -77,7 +77,7 @@ tmux: error while loading shared libraries: libevent-2.0.so.5: cannot open share
 ```
 tmux    #创建Tmux会话
 tmux new -s session-1-name #创建Tmux会话并制定session-1-name名称
-tmux -ls  #列出当前detach的Tmux会话
+tmux ls  #列出当前detach的Tmux会话
 tmux a(attach) -t 0  #激活session名称为0的Tmux会话
 tmux kill-session -t 0 #关闭session名称为0的Tmux会话
 ```

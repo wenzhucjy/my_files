@@ -57,7 +57,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 ```
 #若出现 wrapper  | Unable to start JVM: No such file or directory ，则修改为`java`的绝对路径
-wrapper.java.command=java 
+wrapper.java.command=java
 ```
 
 >8.配置`nexus`为系统服务
@@ -67,7 +67,7 @@ wrapper.java.command=java
 ```
 $ cd /etc/init.d
 $ sudo chkconfig --add nexus
-$ sudo chkconfig --levels 345 nexus on
+$ sudo chkconfig --level 345 nexus on
 $ service nexus start
 Starting Nexus OSS...
 Started Nexus OSS.
@@ -86,10 +86,12 @@ $ tail -f /usr/local/nexus/logs/wrapper.log
 
 ```
 
+> `nexus` 的用户名为：`admin`，密码默认`admin123`，但需修改`sonatype-work\nexus\config`目录下的`security.xml`文件对应的`admin`密码如下：
+
+>>`$shiro1$SHA-512$1024$G+rxqm4Qw5/J54twR6BrSQ==$2ZUS4aBHbGGZkNzLugcQqhea7uPOXhoY4kugop4r4oSAYlJTyJ9RyZYLuFBmNzDr16Ii1Q+O6Mn1QpyBA1QphA==`
+
 参考文档:
 
 >https://books.sonatype.com/nexus-book/2.9/reference/install-sect-service.html
 
 >[Sonatype nexus - How can I reset a forgotten admin password?](https://support.sonatype.com/hc/en-us/articles/213465508-How-can-I-reset-a-forgotten-admin-password-#post_33718407)
-
-

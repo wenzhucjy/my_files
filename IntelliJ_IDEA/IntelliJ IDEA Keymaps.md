@@ -33,6 +33,7 @@
 |Ctrl + F1|在光标所在的错误代码出显示错误信息|
 |Ctrl + F3|调转到所选中的词的下一个引用位置|
 |Ctrl + F4|关闭当前编辑文件|
+|Ctrl + F6|Change Signature 修改签名|
 |Ctrl + F8|在 Debug 模式下，切换断点|
 |Ctrl + F9|执行 Make Project 操作|
 |Ctrl + F11|选中文件 / 文件夹，使用助记符设定 / 取消书签|
@@ -179,6 +180,8 @@
 |Ctrl + Shift + Alt + N|前往指定的变量 / 方法|
 |Ctrl + Shift + Alt + S|打开当前项目设置|
 |Ctrl + Shift + Alt + C|复制参考信息|
+|Ctrl + Shift + Alt + 右方向键|向右移动表达式|
+|Ctrl + Shift + Alt + 左方向键|向左移动表达式|
 
 ## 其他
 
@@ -198,8 +201,3 @@
 ## 官网快捷键资料
 > * Windows / Linux：<https://www.jetbrains.com/idea/docs/IntelliJIDEA_ReferenceCard.pdf>
 > * Mac OS X：<https://www.jetbrains.com/idea/docs/IntelliJIDEA_ReferenceCard_Mac.pdf>
-
-## 第三方快捷键资料
-> * 来自 eta02913：<http://xinyuwu.iteye.com/blog/1005454>
-
-

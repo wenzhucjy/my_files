@@ -1,4 +1,4 @@
-配置 sonatype nexus 为系统服务
+配置 sonatype nexus 搭建 Maven 私服
 
 >1.创建 `<username>` 用户，赋予足够访问权限运行服务
 
@@ -8,7 +8,7 @@
 # su - <username>
 ```
 
->2.在`.zshrc`或`.bashrc`指定`NEXUS_HOME`
+>2.在`.zshrc`或`.bashrc`指定`NEXUS_HOME`环境变量
 
 ```
 export NEXUS_HOME=/usr/local/nexus
@@ -32,7 +32,7 @@ WRAPPER_CONF="${PLATFORM_DIR}/../conf/wrapper.conf"
 PIDDIR="${NEXUS_HOME}"  #pid会写在/usr/local/nexus2/nexus.pid文件里  
 ```
 
->5.修改`nexus.properties`的配置信息
+>5.修改`$NEXUS_HOME/conf`目录下`nexus.properties`的配置信息如下（访问端口）
 
 ```
 # Jetty section
@@ -86,7 +86,7 @@ $ tail -f /usr/local/nexus/logs/wrapper.log
 
 ```
 
-> `nexus` 的用户名为：`admin`，密码默认`admin123`，但需修改`sonatype-work\nexus\config`目录下的`security.xml`文件对应的`admin`密码如下：
+> `nexus` 的用户名为：`admin`，密码默认`admin123`，若提示密码不正确则需修改`sonatype-work\nexus\conf`目录下的`security.xml`文件对应的`admin`密码如下：
 
 >>`$shiro1$SHA-512$1024$G+rxqm4Qw5/J54twR6BrSQ==$2ZUS4aBHbGGZkNzLugcQqhea7uPOXhoY4kugop4r4oSAYlJTyJ9RyZYLuFBmNzDr16Ii1Q+O6Mn1QpyBA1QphA==`
 

@@ -1,5 +1,14 @@
 ### Linux: Installing Apache Portable Runtime (APR) for Tomcat
 
+#### 优化输出`catalina.out`
+
+>默认的tomcat输出log路径为`$CATALINA_HOME/log/catalina.out`，修改`$CATALINA_HOME/bin/catalina.sh`涉及的内容如下：
+
+```
+CATALINA_OUT="$CATALINA_BASE"/logs/catalina.$(date +%Y-%m-%d).out
+
+```
+
 #### `BIO`，`NIO`，`APR`区别
 
 >在Tomcat中，缺省HTTP连接器BIO(Blocking I/O)低并发特性，为了提高Tomcat性能，可采用NIO(非阻塞 I/O)或APR(Apache Portable Runtime)连接器来提供更强性能，提升Web静态页面的处理能力，`apr` 与`tomcat-native`提供更好的伸缩性、性能和集成到本地服务器技术。

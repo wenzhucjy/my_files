@@ -36,6 +36,10 @@
   <user username="both" password="tomcat" roles="tomcat,role1"/>
   <user username="role1" password="tomcat" roles="role1"/>
 -->
+  <!-- app-manager -->
   <role rolename="manager-gui"/>
 	<user username="web" password="test.cn" roles="manager-gui"/>
+  <!-- host-manager-->
+  <role rolename="admin-gui"/>
+  <user username="tomcatgui" password="secretgui" roles="admin-gui"/>
 </tomcat-users>

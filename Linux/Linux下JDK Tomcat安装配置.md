@@ -138,6 +138,8 @@ manager-gui,manager-status,manager-jmx,manager-script,admin-gu,admin-script.
 <tomcat-users>
   <role rolename="manager-gui"/>
   <user username="tomcat" password="secret" roles="manager-gui"/>
+  <role rolename="admin-gui"/>
+  <user username="tomcatgui" password="secretgui" roles="admin-gui"/>
  </tomcat-users>
 
 ```
@@ -175,7 +177,38 @@ BTW, the most recommended
 
 Be sure to save and restart your IP Tables.
 
->- Step 8 : Running Tomcat behind Apache
+>- Step 9 : Configure Tomcat to support SSL or https
+
+a. Generate Keystore
+
+```
+  $JAVA_HOME\bin> keytool -genkey -alias test -keyalg RSA -keystore e:\testkeystore
+
+  $JAVA_HOME/bin> keytool -list -keystore e:\testkeystore
+```
+b. Modify connector in server.xml
+
+```
+<Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
+           maxThreads="150" scheme="https" secure="true"
+           clientAuth="false" sslProtocol="TLS"
+     keystoreFile="/path/to/testkeystore"
+     keystorePass="your_keystore_password" />
+
+```
+
+Retrieve the .pfx file to be installed on your server, then save the .pfx file in your Tomcat server location
+
+```
+<Connector port="443" maxHttpHeaderSize="8192" maxThreads="150" minSpareThreads="25"
+  maxSpareThreads="75" enableLookups="false" disableUploadTimeout="true" acceptCount="100"
+  scheme="https" secure="true" SSLEnabled="true" clientAuth="false"
+  sslProtocol="TLS" keystoreFile="/path/to/your_domain.pfx" keystorePass="your_keystore_password"
+  keystoreType="PKCS12"/>
+
+```
+
+>- Step 10 : Running Tomcat behind Apache
 
 NOTE:As an alternative to running Tomcat on port 80, if you have Apache in front of Tomcat, you can use mod_proxy as well as ajp connector to map your domain to your Tomcat application(s) using an Apache vhost as shown below.
 

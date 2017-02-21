@@ -1,0 +1,1 @@
+set CATALINA_OPTS=%CATALINA_OPTS% -server -Xms2048M -Xmx2048M -xmn600M -Dfile.encoding=UTF-8 -Xloggc:%CATALINA_HOME%/logs/gc.log -XX:GCLogFileSize=10M -XX:NumberOfGCLogFiles=10 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -verbosegc -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:-HeapDumpOnOutOfMemoryError

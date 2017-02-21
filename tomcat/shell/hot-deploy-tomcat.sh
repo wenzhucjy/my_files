@@ -1,20 +1,24 @@
 #!/bin/sh
-#
-#####################################################
+# ==================================================================
 # Name: Script for Hot Deployment Tomcat for UNIX Systems
+# 
+#  ______                           __   
+# /_  __/___  ____ ___  _________ _/ /_  
+#  / / / __ \/ __ `__ \/ ___/ __ `/ __/  
+# / / / /_/ / / / / / / /__/ /_/ / /_    
+#/_/  \____/_/ /_/ /_/\___/\__,_/\__/    
 # 
 #  Generating context conf file for tomcat deploy ,
 #   $TOMCAT_HOME/conf/Catalina/localhost.
 #
 #  CtxCont XML EXAMPLE : 
 #
-#  <Context displayName="portal" docBase="/home/vagrant/tools/apache-tomcat/war/deployWar/portal##20151019135522.war" reloadable="true" />
+#  <Context displayName="test" docBase="/home/web/tools/apache-tomcat/war/deployWar/test##20151019135522.war" reloadable="true" />
 #
 # Usage:
 #
-# Author: wenzhucjy@gmail.com
-# Date: 2015/10/19
-#####################################################
+# see - github @ https://github.com/wenzhucjy
+# ==================================================================
 
 echo
 echo "##### Shell begining ...Waiting!"
@@ -58,7 +62,7 @@ echo "##### Copy $WAR_FILE to $DEPLOY_DIR "
 cp $WAR_FILE $DEPLOY_DIR -Rp
 
 
-# Format $WAR_NAME , portal##20151019153000.war
+# Format $WAR_NAME , test##20151019153000.war
 #CONF_FILE=$(echo $WAR_NAME | sed 's/.*\#\#\(.*\)\.war/\1/' )
 
 CONF_FILE=$(echo $WAR_NAME | awk -F '.' '{print $1}')

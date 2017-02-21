@@ -1,16 +1,25 @@
-#!/bin/bash  
-# author: wenzhucjy@gmail.com
+#!/bin/sh
+# ==================================================================
+# Name: Multiple tomcats service management script.  
 # 
-#  
-# chkconfig: 345 80 15  
-# description: Multiple tomcats service management script.  
-  
+#  ______                           __   
+# /_  __/___  ____ ___  _________ _/ /_  
+#  / / / __ \/ __ `__ \/ ___/ __ `/ __/  
+# / / / /_/ / / / / / / /__/ /_/ / /_    
+#/_/  \____/_/ /_/ /_/\___/\__,_/\__/    
+# 
+# Usage: $0 {start|stop|restart|status|log|kill}
+#        service tomcat {0|1|..} {start|stop|restart|status|log|kill}
+#
+# see - github @ https://github.com/wenzhucjy
+# ==================================================================
+#
 # Source function library.  
 . /etc/rc.d/init.d/functions  
 # 第几个tomcat
 tcNo=$1
 tcName=tomcat$1
-basedir=/apps/test/$tcName
+basedir=/apps/tomcat/$tcName
 tclog=${basedir}/logs/catalina.$(date +%Y-%m-%d).out
 RETVAL=0  
   

@@ -1,0 +1,214 @@
+###########################################################################
+#                             jvm.options                                 #
+#                                                                         #
+# - all flags defined here will be used by tomcat to startup the JVM      #
+# - one flag should be specified per line                                 #
+# - lines that do not start with '-' will be ignored                      #
+# - only static flags are accepted (no variables or parameters)           #
+# - dynamic flags will be appended to these on setenv                     #
+###########################################################################
+
+########################
+# GENERAL JVM SETTINGS #
+########################
+
+
+# The hotspot server JVM has specific code-path optimizations
+# which yield an approximate 10% gain over the client version.
+-server
+
+# Enable thread priorities, primarily so we can give periodic tasks
+# a lower priority to avoid interfering with client workload
+# 启用本地线程优先级
+# -XX:+UseThreadPriorities
+
+# allows lowering thread priority without being root on linux - probably
+# not necessary on Windows but doesn't harm anything.
+# see http://tech.stolsvik.com/2010/01/linux-java-thread-priorities-workaround.html
+# -XX:ThreadPriorityPolicy=42
+
+# Enable heap-dump if there's an OOM
+-XX:+HeapDumpOnOutOfMemoryError
+
+# Per-thread stack size.
+-Xss256k
+
+# Make sure all memory is faulted and zeroed on startup.
+# This helps prevent soft faults in containers and makes
+# transparent hugepage allocation more effective.
+# 启动时就把参数里说好了的内存全部添一遍，可能令得启动时慢上一点，但后面访问时会更流畅，比如页面会连续分配，比如不会在晋升新生代到老生代时才去申请页面使得GC停顿时间加长。不过这选项对32G之类的大堆才会更有感觉一点
+#-XX:+AlwaysPreTouch
+
+# Disable biased locking as it does not benefit.
+# 锁机制的性能改善
+#-XX:-UseBiasedLocking
+
+# 启用线程本地缓存区(Thread Local Allocation Buffer)即每个线程在Java堆中预先分配一个小块内存，1.4.2以前和使用-client选项时，默认不启用，其余版本默认启用
+# Enable thread-local allocation blocks and allow the JVM to automatically resize them at runtime.
+#-XX:+UseTLAB
+#-XX:+ResizeTLAB
+
+# java堆最佳化设置。设置多个参数使长时间运行过的任务使用密集的内存分配。 默认这个选项时关闭的，也就是堆不是最佳化
+#-XX:+AggressiveHeap
+
+# 原始类型的快速优化
+-XX:+UseFastAccessorMethods
+
+# GC日志指向/dev/shm，避免IO造成的JVM停顿
+# see - http://www.evanjones.ca/jvm-mmap-pause.html
+-XX:+PerfDisableSharedMem
+
+# softly reachable objects will remain alive for some amount of time after the last time they were referenced.
+# The default value is one second of lifetime per free megabyte in the heap
+# 每兆堆空闲空间中SoftReference的存活时间，默认1s，建议更改0
+-XX:SoftRefLRUPolicyMSPerMB=0
+
+# Prefer binding to IPv4 network intefaces (when net.ipv6.bindv6only=1). See
+# http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6342561 (short version:
+# comment out this entry to enable IPv6 support).
+#-Djava.net.preferIPv4Stack=true
+
+### Debug options
+
+# uncomment to enable flight recorder, Java Mission Control for JDK7,JDK8则不需要,如果是远程服务器，要开JMX
+# see - http://hirt.se/blog/
+#-XX:+UnlockCommercialFeatures
+#-XX:+FlightRecorder
+
+# how-to-remotely-debug-application-running-on-tomcat-from-within-intellij-idea
+# uncomment to have JVM listen for remote debuggers/profilers on port 1414
+# see - http://blog.trifork.com/2014/07/14/how-to-remotely-debug-application-running-on-tomcat-from-within-intellij-idea/
+#-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1414
+
+# uncomment to have JVM log internal method compilation (developers only)
+# Oracle JDK 存在一些 Open JDK 没有的，商用闭源的组件，例如从 JRockit移植改造而来的 Java Filght Recorder
+#-XX:+UnlockDiagnosticVMOptions
+#-XX:+LogCompilation
+
+# Code Compilation and JIT
+# JVM远程调试时候禁用JIT，JIT针对一个具体的class进行编译，经过编译后的程序，被优化成相当精简的原生型指令码（native code）
+# 编译过一次，下次再执行的时候就不用再次编译了，所以执行次数较多的代码，采用JIT还是十分划算的。
+# 但是，JIT也不是万能的，比如：某些极少执行到的Java指令在编译时所额外花费的时间可能比转译器在执行时的时间还长，这时候就不如直接使用转译器
+# -Djava.compiler=NONE
+
+#################
+# HEAP SETTINGS #
+#################
+
+# Heap size is automatically calculated by env based on this
+# formula: max(min(1/2 ram, 1024MB), min(1/4 ram, 8GB))
+# That is:
+# - calculate 1/2 ram and cap to 1024MB
+# - calculate 1/4 ram and cap to 8192MB
+# - pick the max
+#
+# For production use you may wish to adjust this for your environment.
+# If that's the case, uncomment the -Xmx and Xms options below to override the
+# automatic calculation of JVM heap memory.
+#
+# It is recommended to set min (-Xms) and max (-Xmx) heap sizes to
+# the same value to avoid stop-the-world GC pauses during resize, and
+# so that we can lock the heap in memory on startup to prevent any
+# of it from being swapped out.
+-Xms4000M
+-Xmx4000M
+
+# Young generation size is automatically calculated by cassandra-env
+# based on this formula: min(100 * num_cores, 1/4 * heap size)
+#
+# The main trade-off for the young generation is that the larger it
+# is, the longer GC pause times will be. The shorter it is, the more
+# expensive GC will be (usually).
+#
+# It is not recommended to set the young generation size if using the
+# G1 GC, since that will override the target pause-time goal.
+# More info: http://www.oracle.com/technetwork/articles/java/g1gc-1984535.html
+#
+# The example below assumes a modern 8-core+ machine for decent
+# times. If in doubt, and if you do not particularly want to tweak, go
+# 100 MB per physical CPU core.
+-Xmn1380M
+
+##################################
+#         GC SETTINGS            #
+##################################
+
+### CMS Settings
+
+#-XX:+UseParNewGC
+-XX:+UseConcMarkSweepGC
+-XX:+CMSParallelRemarkEnabled
+-XX:SurvivorRatio=1
+-XX:MaxTenuringThreshold=7
+-XX:CMSInitiatingOccupancyFraction=80
+-XX:+UseCMSInitiatingOccupancyOnly
+-XX:CMSWaitDuration=10000
+-XX:+CMSParallelInitialMarkEnabled
+-XX:+CMSEdenChunksRecordAlways
+# 相对于并行收集器，CMS收集器默认不会对永久代进行垃圾回收。如果希望对永久代进行垃圾回收，可用设置标志
+# some JVMs will fill up their heap when accessed via JMX
+-XX:+CMSClassUnloadingEnabled
+# 在JDK 1.6U14 之后提供了普通对象指针压缩功能(-XX:+UseCompressedOops)，这个参数不建议显式设置，建议维持默认由虚拟机的 Ergonomics机制自动开启
+#-XX:+UseCompressedOops
+
+### G1 Settings (experimental, comment previous section and uncomment section below to enable)
+
+## Use the Hotspot garbage-first collector.
+#-XX:+UseG1GC
+# 在JDK6中使用G1时，还需同时设置
+#-XX:+UnlockExperimentalVMOptions
+#
+## Have the JVM do less remembered set work during STW, instead
+## preferring concurrent GC. Reduces p99.9 latency.
+#-XX:G1RSetUpdatingPauseTimePercent=5
+#
+## Main G1GC tunable: lowering the pause target will lower throughput and vise versa.
+## 200ms is the JVM default and lowest viable setting
+## 1000ms increases throughput.
+#-XX:MaxGCPauseMillis=500
+
+## Optional G1 Settings
+
+# Save CPU time on large (>= 16GB) heaps by delaying region scanning
+# until the heap is 70% full. The default in Hotspot 8u40 is 40%.
+#-XX:InitiatingHeapOccupancyPercent=70
+
+# For systems with > 8 cores, the default ParallelGCThreads is 5/8 the number of logical cores.
+# Otherwise equal to the number of cores when 8 or less.
+# Machines with > 10 cores should try setting these to <= full cores.
+#-XX:ParallelGCThreads=16
+# By default, ConcGCThreads is 1/4 of ParallelGCThreads.
+# Setting both to the same value can reduce STW durations.
+#-XX:ConcGCThreads=16
+
+
+
+### GC logging options
+
+# Oracle Java as default, uses the serial garbage collector on the
+# Full Tenured heap. The Young space is collected in parallel, but the
+# Tenured is not. This means that at a time of load if a full collection
+# event occurs, since the event is a 'stop-the-world' serial event then
+# all application threads other than the garbage collector thread are
+# taken off the CPU. This can have severe consequences if requests continue
+# to accrue during these 'outage' periods. (specifically webservices, webapps)
+# [Also enables adaptive sizing automatically]
+-XX:+UseParallelGC
+
+
+-XX:+PrintGCDetails
+# PrintGCDateStamps(JDK6U4引入的选项)
+#-XX:+PrintGCDateStamps
+-XX:+PrintGCTimeStamps
+-XX:+PrintHeapAtGC
+-XX:+PrintTenuringDistribution
+-XX:+PrintGCApplicationStoppedTime
+-XX:+PrintPromotionFailure
+-XX:PrintFLSStatistics=1
+-XX:+UseGCLogFileRotation
+-XX:NumberOfGCLogFiles=10
+-XX:GCLogFileSize=10M
+-XX:-PrintClassHistogram
+
+# Disable remote (distributed) garbage collection by Java clients and remove ability for applications to call explicit GC collection
+-XX:+DisableExplicitGC

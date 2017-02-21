@@ -1,17 +1,19 @@
-#!/bin/sh
-#
-#####################################################
+#! /bin/sh
+# ==================================================================
 # Name: Script for checking tomcat for UNIX Systems
+#       Check if tomcat is running via shell script
 # 
-# Check if tomcat is running via shell script
+#  ______                           __   
+# /_  __/___  ____ ___  _________ _/ /_  
+#  / / / __ \/ __ `__ \/ ___/ __ `/ __/  
+# / / / /_/ / / / / / / /__/ /_/ / /_    
+#/_/  \____/_/ /_/ /_/\___/\__,_/\__/    
+# 
 #
-# Usage:
+# see - github @ https://github.com/wenzhucjy
+# ==================================================================
 #
-# Author: jy.chen
-# Date: 2015/10/15
-#####################################################
-#
-# ############  method 1 ##############
+# =========================method 1=================================
 #
 # wget -O - http://localhost:8080/portal >& /dev/null
 # RTN=$?
@@ -22,7 +24,7 @@
 #	echo "tomcat is not run."
 # fi
 #
-# ############  method 2 ##############
+# =========================method 2=================================
 #
 # rm dest_file.html
 #  wget http://more/cowbell.txt --output-document=dest_file.html
@@ -33,7 +35,7 @@
 #	echo "The downloaded page is diff from the golden file"
 # fi
 #
-# ############  method 3 ##############
+# =========================method 3=================================
 # lsof -i :8080
 # RESULT=$(netstat -na | grep $LISTEN_PORT | awk '{print $6}' | wc -l)
 #
@@ -44,7 +46,7 @@
 #fi
 #
 #
-# ############  method 4 ##############
+# =========================method 4=================================
 #
 # PID=$(ps -ef | grep java | grep -v grep | awk '{print $2}')
 # if [ "${PID}" ]; then
